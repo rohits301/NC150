@@ -73,30 +73,21 @@ class Solution {
     // refer STRIVER video
     // INTUITION
     /** 
-     * Instead of precomputing prefix (`leftMax[]`) and suffix (`rightMax[]`) arrays,  
-     * we calculate them dynamically to save space.  
-     *
-     * To determine the trapped water at each index, we use:
-     *     min(leftMax, rightMax) - height[i]
-     *
-     * **Key Idea:**  
-     * - If we only have one boundary available at any step, it must be the **minimum** one.
-     * - If `height[left] <= height[right]`, we are sure that the left height is smaller,  
-     *   and there exists some height on the right that is **equal or greater** than `height[left]`.  
-     *   This guarantees that water can be trapped from the **right end**.
-     *
-     * **Logic Breakdown:**  
-     * - If `height[left] >= leftMax` → No water is trapped at `left` (since there’s no left boundary).  
-     *   - Update `leftMax` to ensure it can serve as a boundary for future buildings.
-     * - Else (`height[left] < leftMax`) → Water can be trapped.  
-     *   - Water trapped at `left = leftMax - height[left]`.
-     *
-     * Similarly, for `right`:  
-     * - We only enter the right case when `height[right] < height[left]`,  
-     *   meaning the left boundary is **strong enough** to trap water.  
-     * - We then check whether `rightMax` is high enough to trap water on the right side.
-     */
+     * For storing water, I need left boundary and right boundary
+     * If it is guaranteed that `height[left] <= height[right]` 
+     * then, I have a right boundary in place .
+     * so, check whether it is possible to trap water at left.
+     * this depends whether the left wall or `leftMax` is larger than the current height
+     * hence, if `height[left] >= leftMax`, cannot trap water, update the max 
+     * because this is the max seen so far.
+     * Else, the `height[left]` is already <= `height[right]`
+     * and it is also smaller than `leftMax`, hence, the right and left boundary are guaranteed
+     * also, the `leftMax` found until now are smaller than `height[right]` encountered until now, hence
+     * we are sure we are taking the min of `leftMax` and `rightMax`
+     * hence, water can be trapped in this case.
 
+     * The algorithm cleverly avoids explicitly calculating min(leftMax, rightMax) at each step by moving the pointer of the shorter side.
+     */
     // T: O(n);
     // S: O(1);
     public int trap(int[] height) {
@@ -109,7 +100,6 @@ class Solution {
         while (left <= right) { 
 
             if (height[left] <= height[right]) { 
-                // If the height of the left building is less than or equal to the height of the right building.
                 if (height[left] >= leftMax) { 
                     // If the current left building's height is greater than or equal to the maximum height seen so far from the left.
                     leftMax = Math.max(leftMax, height[left]); // Update the maximum height seen from the left.
@@ -120,7 +110,6 @@ class Solution {
                 }
                 left++;
             } else { 
-                // If the height of the right building is less than the height of the left building.
                 if (height[right] >= rightMax) { 
                     // If the current right building's height is greater than or equal to the maximum height seen so far from the right.
                     rightMax = Math.max(rightMax, height[right]); // Update the maximum height seen from the right.
