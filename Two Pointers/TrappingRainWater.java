@@ -100,35 +100,39 @@ class Solution {
     // T: O(n);
     // S: O(1);
     public int trap(int[] height) {
-        int n = height.length; // Get the number of buildings.
+        int n = height.length; 
 
-        int left = 0, right = n - 1; // Initialize two pointers, one at the start and one at the end.
-        int leftMax = height[0], rightMax = height[n - 1]; // Initialize the maximum height encountered from the left and right ends.
-        int ans = 0; // Initialize the variable to store the total trapped water.
+        int left = 0, right = n - 1;
+        int leftMax = 0, rightMax = 0; 
+        int ans = 0; 
 
-        while (left <= right) { // Continue until the left and right pointers meet or cross.
+        while (left <= right) { 
 
-            if (height[left] <= height[right]) { // If the height of the left building is less than or equal to the height of the right building.
-                if (height[left] >= leftMax) { // If the current left building's height is greater than or equal to the maximum height seen so far from the left.
+            if (height[left] <= height[right]) { 
+                // If the height of the left building is less than or equal to the height of the right building.
+                if (height[left] >= leftMax) { 
+                    // If the current left building's height is greater than or equal to the maximum height seen so far from the left.
                     leftMax = Math.max(leftMax, height[left]); // Update the maximum height seen from the left.
                 } else {
                     // If the current left building is shorter than the leftMax, water can be trapped.
                     // The amount of water trapped is the difference between the leftMax (the limiting boundary) and the current building's height.
                     ans += leftMax - height[left];
                 }
-                left++; // Move the left pointer one step to the right.
-            } else { // If the height of the right building is less than the height of the left building.
-                if (height[right] >= rightMax) { // If the current right building's height is greater than or equal to the maximum height seen so far from the right.
+                left++;
+            } else { 
+                // If the height of the right building is less than the height of the left building.
+                if (height[right] >= rightMax) { 
+                    // If the current right building's height is greater than or equal to the maximum height seen so far from the right.
                     rightMax = Math.max(rightMax, height[right]); // Update the maximum height seen from the right.
                 } else {
                     // If the current right building is shorter than the rightMax, water can be trapped.
                     // The amount of water trapped is the difference between the rightMax (the limiting boundary) and the current building's height.
                     ans += rightMax - height[right];
                 }
-                right--; // Move the right pointer one step to the left.
+                right--; 
             }
         }
 
-        return ans; // Return the total amount of trapped water.
+        return ans; 
     }
 }
