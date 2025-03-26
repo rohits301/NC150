@@ -4,8 +4,8 @@ class Solution {
     // S: O(n)
     /*
      * To generate all parantheses - think Recursion
-     * particularly, backtracking as after going over one decision we come back and explore other options from the same node
-     * since, it is Strings we are generating, we come back and remove the character we added, so deletion happens during backtracking.
+     * particularly, backtracking as after going over one decision we come back and explore other options from the same node.
+     * Since, it is strings we are generating, we come back and remove the character we added, so deletion happens during backtracking.
      * open = count of open parantheses
      * closed = count of closed parantheses
      * 3 conditions -
@@ -13,7 +13,7 @@ class Solution {
      * 2) can only start with closed parantheses if `closed < open`. Because, if start with close('('), it will be an unbalanced pair.
      * 3) when open = close = n, we hit base case and stop.
      * 
-     * Use a String Builder to manage append and delete in strings
+     * Use a StringBuilder to manage append and delete in strings
      */
     public List<String> generateParenthesis(int n) {
         List<String> res = new ArrayList<>();
