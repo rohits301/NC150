@@ -1,5 +1,29 @@
 class Solution {
     // refer Code With Alisha - expln and NEETCODE for code
+    // BRUTE FORCE
+    // T: O(n^2)
+    // S: O(1)
+    /*
+     * Iterate over the entire array for each value to find it's next greater.
+     */
+    public int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] ans = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (temperatures[j] > temperatures[i]) {
+                    ans[i] = j - i;
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
+}
+
+class Solution {
+    // refer Code With Alisha - expln and NEETCODE for code
     // BETTER
     // T: O(n)
     // S: O(n)
