@@ -40,7 +40,7 @@ class Solution {
 
 class Solution {
     // refer NEETCODE FOR BIT-MANIPULATION CODE
-    // OPTIMAL - space optimized
+    // BETTER - WITHOUTH VISITED ARRAY
     // T: O(n! * n); n! permutations * looping till n every time
     // S: O(n); O(n) for ds
     /*
@@ -76,3 +76,48 @@ class Solution {
     }
 }
 
+class Solution {
+    // refer STRIVER
+    // OPTIMAL - NO EXTRA SPACE
+    // T: O(n! * n); n! permutations * looping till n every time
+    // S: O(1); no extra ds
+    /*
+     * To generate permutations, we require, that all elements of array should get a chance to be at every index. 
+     * So, for an array - nums = [1,2,3]
+     * We want all (1,2,3) to be at 0th position and rearrange the remaining numbers.
+     * Similarly, all of them at 1st position and the rest of the array rearranged.
+     * This can be achieved by swapping.
+     * We swap - first at the same position, then with position after the current index. Eg. at idx = 0, swap with 0, then with 1 and 2 and so on.
+     * Base case: when idx == n, we have reached the end of array and have a final permutation.
+     * Backtracking - restore the state of the array by swapping again in post order.
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs(nums, 0, ans);
+        return ans;
+    }
+
+    private void dfs(int[] nums, int idx, List<List<Integer>> ans) {
+        if (idx == nums.length) {
+            // copy the array to list and store in ans
+            List<Integer> ds = new ArrayList<>();
+            for(int num: nums){
+                ds.add(num);
+            }
+            ans.add(new ArrayList<>(ds));
+            return;
+        }
+
+        for (int i = idx; i < nums.length; i++) {
+            swap(i, idx, nums);
+            dfs(nums, idx + 1, ans);
+            swap(i, idx, nums); //swapping again restores the state
+        }
+    }
+
+    private void swap(int i, int j, int[] arr){
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
