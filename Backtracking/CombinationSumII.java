@@ -48,6 +48,7 @@ class Solution {
      * At every level, we consider only one the first unique element and ignore its duplicates.
      * Base case: when `target == 0`.
      * Since, the recursion is inside a loop, we do not need `i == candidates.length` check.
+     * Eg. candidates = [1,1,1,2,2]
      */
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
 
