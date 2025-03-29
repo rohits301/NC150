@@ -46,6 +46,10 @@ class Solution {
      * Similar to Subset-II, here we need to avoid duplicates at each level.
      * We sort the array in the beginning, so that all duplicates are adjacent to each other.
      * At every level, we consider only one the first unique element and ignore its duplicates.
+     * Logic to ingnore duplicates: `if (j > i && nums[j] == nums[j-1])` -> continue
+     * in the recursion call, we pick the `nums[j]` and call for `j + 1`. 
+     * This is for generating combinations, because we cannot pick the same index twice
+     * hence, we invoke `dfs()` for all further indices.
      * Base case: when `target == 0`.
      * Since, the recursion is inside a loop, we do not need `i == candidates.length` check.
      * Eg. candidates = [1,1,1,2,2], target = 4
@@ -64,10 +68,8 @@ class Solution {
             return;
         }
 
-        
-
-        for(int j=i; j<candidates.length; j++){
-            if(j > i && candidates[j] == candidates[j-1]){
+        for(int j = i; j < candidates.length; j++){
+            if(j > i && candidates[j] == candidates[j - 1]){
                 continue;
             }
 
