@@ -12,7 +12,7 @@ class Solution {
      * 3. In every partition, we are making sure, susbtring `i to j` is a palindrome. We make a partition at `j` and 
      * then invoke the dfs() for the rest of the string.
      * 4. That is, if start with considering "a"(0, 0) and "abb"(1,n-1)
-     * then from "abb", we take "a"(0, 0) and "bb"(1, n-1) and so on.
+     * then from "abb", we take "a"(1, 1) and "bb"(2, n-1) and so on.
      * 5. Relation between i and j ->  i - the recursion index, j - the array index. In the loop, we need to consider the partitions from `j = i to n-1.`
      * 6. Base case: If `i == s.length()`, we add the generated palindrome partitions to our answer list.
      * 7. Eg. s = "aabb"
