@@ -42,14 +42,15 @@ class Solution {
     // S: O(k * 2^n); O(2^n) subsets * O(k) avg. length of each subset + O(n) - auxiallary space 
     /*
      * APPROACH - 
-     * Since there are duplicates, we sort the array first to get a sorted order.
-     * Duplicate - considering the same element again at the same level.
-     * To avoid this, we have to skip duplicates.
-     * But we have to make sure, this is not the first time we are encountering this in our recursion call.
-     * hence, while looping over the array, for every `j`
-     * if `j>i`, that is, this not the first element in this recursion call
-     * we skip if it is a duplicate, that is, `nums[j] == nums[j-1]` 
-     * 
+     * Since there are duplicates, we sort the array first to get all duplicates adjacent to each other.
+     * A Duplicate is considering the same element again at the same level.
+     * To avoid this, we have to skip duplicates, so at every level, except the first element,
+     * if there is any other occurence of that element on the same level, we skip it.
+     * Logic in code: if `j>i`, that is, this not the first element in this recursion call
+     * and it is a duplicate, that is, `nums[j] == nums[j-1]` -> continue;
+     * In case of subsets, the answer is generated in every dfs call.
+     * i.e., every invocation is a valid subset.
+     * Hence, we add `ds` to `ans` everytime when we enter the `dfs()`.
      * We do not need a base case, because, we are looping in the array, so array index will stop if index is out of bounds.
      */
     public List<List<Integer>> subsetsWithDup(int[] nums) {
