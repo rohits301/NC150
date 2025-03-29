@@ -5,10 +5,10 @@ class Solution {
     // S: O(n * 2^n); n for data structure and n for stack space
     /* 
      * Approach - 
-     * Building upon the Subset-I recursion
-     * To avoid duplicates leading to repitition in subsets, we use Set to store the subsets
+     * 1. Building upon the Subset-I recursion
+     * 2. To avoid duplicates leading to repitition in subsets, we use Set to store the subsets
      * This is then converted to List<List<Integer>> 
-     * But, this is not enough, after this as well, a problem we face is - 
+     * 3. But, this is not enough, after this as well, a problem we face is - 
      * the subsets are unique but they also need to be ordered
      * hence, we sort the input array beforehand.
      */
@@ -42,16 +42,21 @@ class Solution {
     // S: O(k * 2^n); O(2^n) subsets * O(k) avg. length of each subset + O(n) - auxiallary space 
     /*
      * APPROACH - 
-     * Since there are duplicates, we sort the array first to get all duplicates adjacent to each other.
-     * A Duplicate is considering the same element again at the same level.
-     * To avoid this, we have to skip duplicates, so at every level, except the first element,
+     * 1. Since there are duplicates, we sort the array first to get all duplicates adjacent to each other.
+     * 2. A Duplicate is considering the same element again at the same level.
+     * 3. To avoid this, we have to skip duplicates, so at every level, except the first element,
      * if there is any other occurence of that element on the same level, we skip it.
-     * Logic in code: if `j>i`, that is, this not the first element in this recursion call
+     * 4. Logic in code: if `j>i`, that is, this not the first element in this recursion call
      * and it is a duplicate, that is, `nums[j] == nums[j-1]` -> continue;
-     * In case of subsets, the answer is generated in every dfs call.
+     * 5. In case of subsets, the answer is generated in every dfs call.
      * i.e., every invocation is a valid subset.
      * Hence, we add `ds` to `ans` everytime when we enter the `dfs()`.
-     * We do not need a base case, because, we are looping in the array, so array index will stop if index is out of bounds.
+     * 6. In the recursion tree, at level 0 - the starting, we have 0-length subsets
+     * at level = 1, we have 1-length subsets
+     * at level = 2, we have 2-length subsets and so on.
+     * 7. So, the reason for skipping at same level is that at same level, the state of the data structure is same, 
+     * hence, the states/decision that branch out of this are also going to look alike. Hence, to avoid, we skip.
+     * 8. We do not need a base case, because, we are looping in the array, so array index will stop if index is out of bounds.
      */
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         Arrays.sort(nums);
