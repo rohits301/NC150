@@ -24,7 +24,7 @@ class Solution {
 
         Arrays.sort(pairs, (a, b) -> Integer.compare(b[0], a[0]));
 
-        double prevTime = 0; /* NOTE: Use DOUBLE, integer division gives wrong answer. */
+        double prevTime = 0.0; /* NOTE: Use DOUBLE, integer division gives wrong answer. */
         int fleets = 0;
 
         for (int[] p : pairs) {
