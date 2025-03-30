@@ -74,6 +74,6 @@ class Solution {
             }
         }
 
-        return n < 0 ? (1 / res) : res;
+        return n < 0 ? (1.0 / res) : res;
     }
 }
