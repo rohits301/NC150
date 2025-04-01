@@ -1,7 +1,15 @@
 class Solution {
     // refer STRIVER video solution for Brute, Better and Optimal
     // BRUTE FORCE
-    // T: O(n^3), S: O(2 * no. of unique triplets) - space of set + answer list
+    // T: O(n^3)
+    // S: O(2 * no. of unique triplets) - space of set + answer list
+    /*
+     * 1. Sort the list as we want unique triplets. So we add sorted list to Set.
+     * 2. This ensures, list which has same sorted order are counted only once.
+     * 3. In the end, create List from Set.
+     * 4. We required extra space of Set to sort the triplet. 
+     * 5. Note: Sorting will change order, but that won't affect the answer.
+     */
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
         Set<List<Integer>> set = new HashSet();
@@ -31,8 +39,16 @@ class Solution {
 class Solution {
     // BETTER
     // T: O(n^2) 
-    // S: O(n + no. of unique ele * 2); n=for hashset, no. of unique ele - first is for set, second is for the ans list
-    // using set, an external Data structure to store the answer 
+    // S: O(n + no. of unique ele * 2); n=for hashset, no. of unique ele -> first is for set, second is for the ans list
+    // using set, an external Data structure to store the answer
+    /* 
+     * 1. Instead of three loops, this can be done in two.
+     * 2. This is possible if use hashset to search the third element in array. So searching reduces from O(n) to O(1).
+     * 3. So, `third = -(nums[i] + nums[j])`
+     * 4. If found in set, then we have a triplet.
+     * 5. In every iteration, we add `nums[j]` to set because we have visited it and it can form a triplet later.
+     * 6. The Set is created again for every `i`.
+     */
     public List<List<Integer>> threeSum(int[] nums) {
         int n = nums.length;
         Set<List<Integer>> set = new HashSet<>();
@@ -57,15 +73,14 @@ class Solution {
 
 class Solution {
     // OPTIMAL
-    // T: O(n^2 + nlogn), S: O(no. of triplets) 
+    // T: O(n^2 + nlogn)
+    // S: O(no. of triplets) 
     /*
-    We required extra space of set to sort the triplet. 
-    Sorting will change order, but that won't affect the answer
-    it ensures, we always have the sorted order when we find a triplet
-    Hence, to get rid of sorting the triplets, we can sort the entire array in the beginning itself.
-    Then, we can use two-pointer such that, i < j < k
-    Fix `i`, move `j` and `k`.
-    We skip duplicates, whenever we find a triplet for given `j` and `k`.
+     * 1. To get rid of sorting the triplets, we can sort the entire array in the beginning itself.
+     * 2. Then, we can use two-pointer such that, `i < j < k`
+     * 3. Fix `i`, move `j` and `k`.
+     * 4. Since array is sorted, we can find the triplet using two-pointer on `j` and `k`.
+     * 5. We skip duplicates, whenever we find a triplet for given `j` and `k`.
     */
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
@@ -77,6 +92,7 @@ class Solution {
             // to avoid duplicate i
             if (i > 0 && nums[i] == nums[i - 1])
                 continue;
+            }
 
             // 2. two-pointer on i and j 
             // for a given i, find j and k such that all sum to zero
