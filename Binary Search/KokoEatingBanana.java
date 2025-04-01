@@ -1,17 +1,24 @@
 class Solution {
+    // refer STRIVER
+    // T: O(nlog n); `n` for loop on arr and `log n` for binary search.
+    // S: O(1)
     /*
-     * The reason for ceil -> (val + k - 1) / k
+     * 1. The reason for ceil -> (val + k - 1) / k
      * in case of `val` not divisible by `k`
-     * the addition of `k-1` to val makes the entire division round up to the next integer
-     * e.g. k = 4, val = 9
+     * 2. the addition of `k-1` to val makes the entire division round up to the next integer
+     * 3. e.g. k = 4, val = 9
      * (9 + 4 - 1) / 4 = 12 / 4 = 3
-     * in case of larger number
-     * (10 + 4 - 1) / 4 = 13 / 4 = 3
-     * so ceil is calculated correctly in both cases, when number is slight big and
-     * when it is really big
+     * in case of larger number, val = 11
+     * (11 + 4 - 1) / 4 = 14 / 4 = 3
+     * so ceil is calculated correctly in both cases, when number is slightly big and
+     * when it is really big.
+     * 4. The min rate of eating bananas = 1, and the max rate is the largest pile of bananas.
+     * 5. If the time taken to eat bananas is <= h, then it is possible to eat, so we find our ans in this condition.
+     * 6. else, we have to reduce the rate of eating.
+     * 7. The binary search is happening on the values of time/rate. 
+     * 8. Since the rate ranges from 1 to max, so it is a sorted set of values and we can execute binary search here.
      */
     public int minEatingSpeed(int[] piles, int h) {
-
         int max = -1;
         for (int pile : piles) {
             if (pile > max) {
@@ -44,8 +51,8 @@ class Solution {
             time += (val + k - 1) / k;
             if (time > h) {
                 // THIS IS TO PREVENT OVERFLOW FOR LARGE NUMBERS
-                // LONG CAN SAVE BUT NOT IN INTERVIEW
-                // COZ. THESE ARE REAL CONSTRAINTS
+                // TAKING `LONG` datatype, CAN SOLVE THIS, BUT NOT IN INTERVIEW
+                // COZ. THESE ARE REAL WORLD CONSTRAINTS
                 break;
             }
         }
