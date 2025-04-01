@@ -1,6 +1,15 @@
 class Solution {
+    // refer NEETCODE
     // BRUTE FORCE
-    // T: O(n^2), S: O(n) - will be O(26) as map would have max 26 unique keys
+    // T: O(n^2)
+    // S: O(n) - will be O(26) as map would have max 26 unique keys
+    /*
+     * 1. Use map to count frequency of the characters.
+     * 2. Whenever for the current substring under consideration (`i to j`), if `windowLength - maxFrequency > k`
+     * then, we the window is invalid, hence break. Because, further strings will have the above equation as true only, so breaking
+     * and not considering further substrings for these `i` and `j` saves time.
+     * 3. Keep updating the `maxLength`.
+     */
     public int characterReplacement(String s, int k) {
         int maxLength = 0;
         int n = s.length();
@@ -25,7 +34,12 @@ class Solution {
 
 class Solution {
     // BETTER
-    // T: O(n^2), S: O(26) = O(1)
+    // T: O(n^2)
+    // S: O(26) = O(1)
+    /*
+     * Using frequency array[26] instead of map.
+     * Rest all same.
+     */
     public int characterReplacement(String s, int k) {
         int maxLength = 0;
         int n = s.length();
@@ -49,9 +63,18 @@ class Solution {
 }
 
 class Solution {
-    // OPTIMAL
     // refer Neetcode's video
-    // T: O(n), S: O(26)
+    // OPTIMAL
+    // T: O(n)
+    // S: O(26)
+    /*
+     * 1. Instead of changing the window itself, like in previous approach where we break from loop in case of invalid window.
+     * 2. We can slide the window instead. Slide -> release the `left` character until the window is valid again.
+     * 3. Condition for valid window -> `windowSize - maxFrequency <= k`. `windowSize = right - left + 1`
+     * 4. Basically, count of non-repeating characters <= k for valid window, only then we can do `k` replacements.
+     * 5. Acquire characters from `right` and check if window is valid.
+     * 6. Keep updating the `maxLength` in every iteration.
+     */
     public int characterReplacement(String s, int k) {
         int maxLength = 0;
         int n = s.length();
