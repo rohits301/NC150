@@ -13,10 +13,11 @@ class Solution {
      * so ceil is calculated correctly in both cases, when number is slightly big and
      * when it is really big.
      * 4. The min rate of eating bananas = 1, and the max rate is the largest pile of bananas.
-     * 5. If the time taken to eat bananas is <= h, then it is possible to eat, so we find our ans in this condition.
-     * 6. else, we have to reduce the rate of eating.
+     * 5. If the `time taken to eat bananas is <= h`, then it is possible to eat, so we find our ans in this condition.
+     * 6. else, we have to increase the rate of eating.
+     * Also, we want the minimum rate of eating among all possible answers, so `hi = mid - 1` to shorten the search area.
      * 7. The binary search is happening on the values of time/rate. 
-     * 8. Since the rate ranges from 1 to max, so it is a sorted set of values and we can execute binary search here.
+     * 8. Since the rate ranges from 1 to `max`, so it is a sorted set of values and we can execute binary search here.
      */
     public int minEatingSpeed(int[] piles, int h) {
         int max = -1;
