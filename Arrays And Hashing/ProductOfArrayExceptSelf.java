@@ -1,7 +1,7 @@
 class Solution {
-    // BRUTE FORCE
+    // refer NEETCODE - all approaches
+    // BRUTE FORCE - TLE
     // T: O(n^2), S: O(1)
-    // TLE
     public int[] productExceptSelf(int[] nums) {
         int n = nums.length;
         int[] res = new int[n];
@@ -49,10 +49,9 @@ class Solution {
     }
 }
 
-/*
- * OPTIMAL, T: O(n), S: O(1) extra space
- */
 class Solution {
+    // OPTIMAL
+    // T: O(n), S: O(1) extra space
     public int[] productExceptSelf(int[] nums) {
 
         int n = nums.length;
@@ -62,8 +61,7 @@ class Solution {
         answer[0] = 1;
         answer[n - 1] = 1;
 
-        // building answer with left product, that is answer[i] = product of num before
-        // i;
+        // building answer with left product, that is answer[i] = product of num before i
         for (int i = 1; i < n; i++) {
             left = left * nums[i - 1];
             answer[i] = left;
