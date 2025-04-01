@@ -38,7 +38,7 @@ class Solution {
      * This is a monotonic decreasing stack, i.e, the elements from bottom to top
      * are in a non-increasing order or strictly decreasing order.
      * 
-     * NOTE: in `st.pop()`, we pop all values smaller and equal.
+     * NOTE: in thw `while` loop for `st.pop()`, we pop all values smaller and equal.
      */
     public int[] dailyTemperatures(int[] temperatures) {
         int n = temperatures.length;
