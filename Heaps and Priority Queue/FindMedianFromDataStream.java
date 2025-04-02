@@ -31,45 +31,50 @@ class MedianFinder {
 }
 
 class MedianFinder {
-    // Refer NEETCODE
+    // refer NEETCODE
     // OPTIMAL
     // T: O(log n) for each addNum() call - n = no. of elements in the heap
     // S: O(n)
-    PriorityQueue<Integer> smallHeap; // maxHeap holding small numbers
-    PriorityQueue<Integer> largeHeap; // minHeap holding large numbers
+    PriorityQueue<Integer> maxHeap; // to store small numbers
+    PriorityQueue<Integer> minHeap; // to store large numbers
 
     public MedianFinder() {
-        smallHeap = new PriorityQueue<>(Collections.reverseOrder());
-        largeHeap = new PriorityQueue<>(); // default is minHeap in java
+        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        minHeap = new PriorityQueue<>();
     }
-
+    
+    // T: O(logn)
     public void addNum(int num) {
-        smallHeap.add(num);
+        maxHeap.offer(num);
 
-        // every element in smallHeap should be <= every element in largeHeap
-        if (!smallHeap.isEmpty() && !largeHeap.isEmpty()
-                && smallHeap.peek() > largeHeap.peek()) {
-            largeHeap.add(smallHeap.poll());
+        // first rebalance to make sure heaps are valid
+        // every element in maxHeap should be <= every element in minHeap
+        if(!maxHeap.isEmpty() && !minHeap.isEmpty() && 
+            maxHeap.peek() > minHeap.peek()){
+            
+            minHeap.offer(maxHeap.poll());
         }
-
-        // uneven size, so shift elements so that difference of sizes is atmost 1
-        if (smallHeap.size() > largeHeap.size() + 1) {
-            largeHeap.add(smallHeap.poll());
+        // the order of below conditions doesn't matter
+        // whichever heap has more elements (difference >= 2)
+        // then, rebalance 
+        if(maxHeap.size() > minHeap.size() + 1){
+            minHeap.offer(maxHeap.poll());
         }
-
-        if (largeHeap.size() > smallHeap.size() + 1) {
-            smallHeap.add(largeHeap.poll());
+        if(minHeap.size() > maxHeap.size() + 1){
+            maxHeap.offer(minHeap.poll());
         }
     }
-
+    
+    // T: O(1)
     public double findMedian() {
-        if (smallHeap.size() > largeHeap.size()) {
-            return (double) smallHeap.peek();
-        } else if (largeHeap.size() > smallHeap.size()) {
-            return (double) largeHeap.peek();
+        // whichever heap has more elements has the median at its peek
+        if(maxHeap.size() > minHeap.size()){
+            return (double) maxHeap.peek();
+        } else if(minHeap.size() > maxHeap.size()){
+            return (double) minHeap.peek();
         } else {
-            // same size => even no. of elements
-            return (smallHeap.peek() + largeHeap.peek()) / 2.0;
+            // equal size => even number of elements
+            return ((double) maxHeap.peek() + (double) minHeap.peek()) / 2;
         }
     }
 }
