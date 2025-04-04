@@ -15,7 +15,7 @@
  */
 class Solution {
     // refer STRIVER video
-    // T: O(n), S: O(n)
+    // T: O(n), S: O(h)
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if(p == null || q == null){
             return (p == null && q == null);
