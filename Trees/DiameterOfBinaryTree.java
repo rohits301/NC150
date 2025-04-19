@@ -19,18 +19,18 @@ class Solution {
     // T: O(n)
     // S: O(h)
     /*
-     * The diameter of a binary tree is the longest path (number of edges) between any two nodes in the tree.
-     * This path may or may not pass through the root.
-     * The height of a tree is the number of edges in the longest path from the root to a leaf.
-     * At any node, the diameter can be calculated as:
+     * 1. The diameter of a binary tree is the longest path (number of edges) between any two nodes in the tree.
+     * 2. This path may or may not pass through the root.
+     * 3. The height of a tree is the number of edges in the longest path from the root to a leaf.
+     * 4. At any node, the diameter can be calculated as:
      * `diameter = left subtree height + right subtree height`
-     * Why does this work?
-     * The leftHeight (lh) gives the depth of the left subtree.
-     * The rightHeight (rh) gives the depth of the right subtree.
-     * The longest path through a node is given by `lh + rh`.
-     * We track the maximum diameter across all nodes using a global variable.
-     * Why is `1 + max(lh, rh)` returned in recursion?
-     * When returning the height of a subtree, we count the number of edges, so we return `1 + max(lh, rh)` 
+     * 5. Why does this work?
+     * 6. The leftHeight (lh) gives the depth of the left subtree.
+     * 7. The rightHeight (rh) gives the depth of the right subtree.
+     * 8. The longest path through a node is given by `lh + rh`.
+     * 9. We track the maximum diameter across all nodes using a global variable.
+     * 10. Why is `1 + max(lh, rh)` returned in recursion?
+     * 11. When returning the height of a subtree, we count the number of edges, so we return `1 + max(lh, rh)` 
      * to include the current node in the depth.
      */
     public int diameterOfBinaryTree(TreeNode root) {
