@@ -15,7 +15,8 @@
  */
 class Solution {
     // refer STRIVER
-    // T: O(n1 * n2); O(n1) - for recursion of isSubtree, for O(n2) for every isSameTree() call
+    // T: O(s * t) - where s is the number of nodes in root, t in subRoot
+    // In the worst case, we call isSameTree (which is O(t)) for every node in root (s nodes)
     // S: O(h1 + h2) - sum of heights is the stack size
     /*
      * 1. Let's consider, subroot as 't' and root as 's'.
