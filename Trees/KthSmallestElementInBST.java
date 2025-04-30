@@ -111,41 +111,82 @@ class Solution {
 
 class Solution {
     // OPTIMAL
-    // refer STRIVER
-    // Morris Traversal - inorder, only change, instead of adding to list
-    // we increase count and store the value in ans
-    // T: O(n) - Amortized, S: O(1)
+    // refer STRIVER and ChatGPT
+    /**
+     * Uses Morris Inorder Traversal (threaded binary tree) to find the k-th smallest
+     * element in a BST with O(1) extra space (beyond variables).
+     *
+     * Steps:
+     * 1. Initialize curr = root, count = 0, res = arbitrary.
+     * 2. While curr != null and we haven’t visited k nodes:
+     *    a) If curr.left is null:
+     *         - “Visit” curr: increment count, set res = curr.val.
+     *         - Move to right: curr = curr.right.
+     *    b) Else:
+     *         - Find inorder predecessor (prev) in left subtree:
+     *             prev = curr.left;
+     *             while (prev.right != null && prev.right != curr)
+     *                 prev = prev.right;
+     *
+     *         - If prev.right is null:
+     *             • Create a temporary thread: prev.right = curr
+     *             • Move curr to left: curr = curr.left
+     *
+     *         - Else (thread exists):
+     *             • Remove the thread: prev.right = null
+     *             • “Visit” curr: increment count, res = curr.val
+     *             • Move to right: curr = curr.right
+     *
+     * 3. Once count == k (or traversal ends), res holds the k-th smallest value.
+     *
+     * Time Complexity: O(n) amortized (each edge is traversed at most twice).
+     * Space Complexity: O(1) extra nodes (threads reuse null pointers).
+     */
     public int kthSmallest(TreeNode root, int k) {
-        int count = 0, ans = 0;
-        
+        if (root == null) {
+            return 0;  
+        }
+
         TreeNode curr = root;
-        while(curr != null){
-            if(count == k){
+        int count = 0, res = 0;
+
+        // Traverse until we've visited k nodes in inorder
+        while (curr != null) {
+            if(count == k) {
                 break;
             }
-
-            if(curr.left == null){
-                ans = curr.val;
+            
+            if (curr.left == null) {
+                // No left subtree: visit this node
                 count++;
+                res = curr.val;
+                // Move to next right node
                 curr = curr.right;
             } else {
+                // Find the inorder predecessor in the left subtree
                 TreeNode prev = curr.left;
-                while(prev.right != null && prev.right != curr){
+                while (prev.right != null && prev.right != curr) {
                     prev = prev.right;
                 }
-                if(prev.right == null){
+
+                if (prev.right == null) {
+                    // First time seeing this predecessor: create a thread back
                     prev.right = curr;
+                    // Move down into left subtree
                     curr = curr.left;
                 } else {
+                    // Thread already exists: remove it, then visit curr
                     prev.right = null;
-                    ans = curr.val;
                     count++;
+                    res = curr.val;
+                    // Move to right subtree
                     curr = curr.right;
                 }
             }
         }
-        return ans;
+        return res;
     }
 }
 
 // FOLLOW-UP
+// AVL tree
