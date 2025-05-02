@@ -91,3 +91,55 @@ class Solution {
         return Arrays.equals(a, b);
     }
 }
+
+class Solution {
+    // OPTIMAL
+    // refer LEETCODE Editorial - Approach 5
+    // T: O(m); n + (m-n)*26
+    // S: O(1); 26*2
+    /*
+     * 1. SLIDING WINDOW - all substring problems that require some sort of matching, think Sliding Window.
+     * 2. Make two frequency arrays - one for each `s1` and `s2`.
+     * 3. Consider `s1` as pattern and `s2` as text.
+     * 4. problem: find anagram of pattern in text.
+     * 5. Iterate over length `n` and populate both frequency arrays
+     * `s1Arr` = count of frequencies of characters in s1
+     * `s2Arr` = count of frequencies of first `n` characters (first window)
+     * 6. Iterate over the remaining windows in `s2`, `m-n` windows.
+     * Each window is of length `n`.
+     * 7. Acquire the character at `start+n` 
+     * Release the character at `start`
+     * 8. Compare both arrays whether they match.
+     * NOTE: The last return call is to check if the last window is valid.
+     */
+
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        int n = s1.length();
+        int m = s2.length();
+
+        int[] s1Arr = new int[26];
+        int[] s2Arr = new int[26];
+        for (int i = 0; i < n; i++) {
+            s1Arr[s1.charAt(i) - 'a']++;
+            s2Arr[s2.charAt(i) - 'a']++;
+        }
+
+        // In all the substrings of length `n`, we check if any substring is anagram with `s1`
+        for (int start = 0; start < m - n; start++) {
+            if(matches(s1Arr, s2Arr)){
+                return true;
+            }
+
+            s2Arr[s2.charAt(start + n) - 'a']++; // acquire
+            s2Arr[s2.charAt(start) - 'a']--; // release
+        }
+        return matches(s1Arr, s2Arr);
+    }
+
+    private boolean matches(int[] a, int[] b) {
+        return Arrays.equals(a, b);
+    }
+}
