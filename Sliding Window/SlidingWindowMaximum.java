@@ -4,12 +4,18 @@ class Solution {
     // T: O(n*k); 
     // S: O(n-k+1); answer array
     // Iterate over the array and find max for each window of size k
+    /*
+     * 1. For every `k`-length window, we need the maximum. There are `n-k+1` such windows.
+     * 2. Two loops - outer loop for iterating over the array, i.e., the start of the window.
+     * 3. Inner loop to find the max in the `k` elements.
+     * 4. Update answer for all `k`-length windows.
+     */
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
-        int[] ans = new int[n-k+1];
-        for(int i=0; i<(n-k+1); i++){
+        int[] ans = new int[n - k + 1];
+        for (int i = 0; i < (n - k + 1); i++) {
             ans[i] = nums[i];
-            for(int j=i; j<i+k; j++){
+            for (int j = i; j < i + k; j++) {
                 ans[i] = Math.max(ans[i], nums[j]);
             }
         }
