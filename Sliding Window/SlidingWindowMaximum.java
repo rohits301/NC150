@@ -25,35 +25,45 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER
-    // OPTIMAL
-    // T: O(n); O(n) for iteration + O(n) for removing from queue
-    // S: O(n-k+1) + O(); answer array + extra space for array
-    // Keep a Deque which maintains the max in window of size k
-    
+    // refer STRIVER, old video
+    // Array Deque approach
+    // T: O(n); n + n = 2n, maximum `n` offer and `n` poll invocations are made
+    // S: O(k); Queue size at any time is `k`
+    /**
+     * Approach:
+     * 1. Use ArrayDeque - it is a Doubly Linked List (DLL) internally.
+     * 2. Intuition - we need to keep track of max for `k` elements. This has to be done as we discover the elements. So, it NGE(next greater element) on right. 
+     * As soon as we discover a `nums[i]` that is smaller or equal to last element in queue (`q.peekLast()`), we push it to queue.
+     * Another way to think about this - we remove all elements from the end of the queue that are smaller than nums[i]. This way we maintain strictly decreasing order.
+     * Hence, the greatest is always in the beginning of the queue.
+     * 3. We need to clean-up the queue as well to make sure, stale window entries are removed. So remove from front, when the front index in queue is `i-k`. 
+     * Because, for every index `i`, `i-k` is the first element outside of window of size `k` ending at `i`.
+     * 4. We store indices in queue to enable so that the clean-up for non-window elements is efficient.
+     * 5. The size of the answer array = the number of windows of size `k` possible in the array => `n-k+1`.
+     *
+     */
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
         int[] ans = new int[n - k + 1];
-        int idx = 0;
 
         Deque<Integer> q = new ArrayDeque<>();
-
         for (int i = 0; i < n; i++) {
-
-            if(!q.isEmpty() && q.peek() == (i-k)){
-                q.poll(); // remove from start the elements which are not part of the window
+            while (!q.isEmpty() && q.peekFirst() == (i - k)) {
+                q.pollFirst(); // default poll is pollFirst()
             }
 
-            while(!q.isEmpty() && nums[q.peekLast()] < nums[i]){
-                q.pollLast(); //remove from last the elements that are smaller
+            while (!q.isEmpty() && nums[q.peekLast()] < nums[i]) {
+                q.pollLast();
             }
+
             q.offer(i);
 
-            if(i >= k-1){
-                ans[idx++] = nums[q.peek()];
+            if (i >= k - 1) {
+                // k elements are discovered
+                // add to array
+                ans[i - k + 1] = nums[q.peekFirst()];
             }
         }
-
         return ans;
     }
 }
