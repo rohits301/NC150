@@ -1,7 +1,34 @@
 class Solution {
+    // BRUTE - O(m*n) - linear search in entire matrix
+    // BETTER 
+    // T: O(m * logn)
+    // S: O(1)
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // BS in every 1d array of row
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        for(int i=0; i<m; i++){
+            int lo = 0, hi = n-1;
+            while(lo <= hi){
+                int mid = lo + (hi-lo)/2;
+                if(matrix[i][mid] == target){
+                    return true;
+                }
+
+                if(matrix[i][mid] < target){
+                    lo = mid+1;
+                } else {
+                    hi = mid - 1; 
+                }
+            }
+        }
+        return false;
+    }
+}
+
+class Solution {
     // refer STRIVER
-    // BRUTE - O(m*n)
-    // BETTER - O(n) + O(log m)
     // OPTIMAL - O(log (m*n))
     /*
      * Formula explanation (INTUITION):
