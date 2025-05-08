@@ -31,6 +31,10 @@ class Solution {
     // refer STRIVER
     // OPTIMAL - O(log (m*n))
     /*
+     * The matrix has special properties where each row is sorted and the first element of each row is greater than the last element of the previous row.
+     * This means that matrix is sorted if you go from top left to bottom right, row by row. 
+     * So we can treat this 2D matrix as a sorted 1D array and use Binary Search to find the target.
+     *
      * Formula explanation (INTUITION):
      * n = number of columns 
      * In every row we have `n` elements, so the first element index will always be a multiple of `n`. 
