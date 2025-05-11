@@ -1,5 +1,5 @@
 class Solution {
-    // BRUTE FORCE
+    // BRUTE FORCE - TLE
     // T: O(n^2); Worst case: a sorted array or an array with all same heights
     // S: O(1);
     /**
@@ -43,6 +43,7 @@ class Solution {
 
 class Solution {
     // refer Subhesh Bhaiya approach - similar to Striver Old Video - 1
+    // BETTER
     // T: O(n); left array and stack (n) + right array and stack (n) + finding max area (n), total = 3n, three-pass
     // S: O(n); stack + 2 arrays of size=n, total = 3n
     /**
