@@ -25,18 +25,22 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER, old video
+    // refer STRIVER - old video
+    // OPTIMAL
     // Array Deque approach
-    // T: O(n); n + n = 2n, maximum `n` offer and `n` poll invocations are made
+    // T: O(n); n + n = 2n, maximum `n` offer and `n` poll invocations are made, so deque is Amortized O(n) for n operations.
     // S: O(k); Queue size at any time is `k`
     /**
      * Approach:
-     * 1. Use ArrayDeque - it is a Doubly Linked List (DLL) internally.
-     * 2. Intuition - we need to keep track of max for `k` elements. This has to be done as we discover the elements. So, it NGE(next greater element) on right. 
+     * 1. Use ArrayDeque - it is a Double Ended Queue implemented as a resizable array internally.
+     * 2. Intuition - we need to keep track of max for `k` elements. This has to be done as we discover the elements. 
+     * So, it NGE(next greater element) on right. 
      * As soon as we discover a `nums[i]` that is smaller or equal to last element in queue (`q.peekLast()`), we push it to queue.
-     * Another way to think about this - we remove all elements from the end of the queue that are smaller than nums[i]. This way we maintain strictly decreasing order.
+     * Another way to think about this - we remove all elements from the end of the queue that are smaller than nums[i]. 
+     * This way we maintain strictly decreasing order.
      * Hence, the greatest is always in the beginning of the queue.
-     * 3. We need to clean-up the queue as well to make sure, stale window entries are removed. So remove from front, when the front index in queue is `i-k`. 
+     * 3. We need to clean-up the queue as well to make sure, stale window entries are removed. 
+     * So remove from front, when the front index in queue is `i-k`. 
      * Because, for every index `i`, `i-k` is the first element outside of window of size `k` ending at `i`.
      * 4. We store indices in queue to enable so that the clean-up for non-window elements is efficient.
      * 5. The size of the answer array = the number of windows of size `k` possible in the array => `n-k+1`.
