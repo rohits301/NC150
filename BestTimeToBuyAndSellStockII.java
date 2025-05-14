@@ -111,6 +111,7 @@ class Solution {
      * dp[i][0] = max profit if I sell or not sell on ith day
      * dp[i][1] = max profit if I buy or not buy on ith day
      * 4. IMPORTANT - Result at the end is whatever profit I made by selling the last of stocks and now I'm in eligible to buy state. So, result = `dp[0][1]`.
+     * This is same as the initial recursion call.
      */
     public int maxProfit(int[] prices) {
         int n = prices.length;
