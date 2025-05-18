@@ -1,5 +1,5 @@
 class Solution {
-    // refer STRIVER - DP39.
+    // refer STRIVER - DP 39.
     // similar to Stock II
     // RECURSION - TLE
     // T: O(2^n);
@@ -35,7 +35,7 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER - DP39.
+    // refer STRIVER - DP 39.
     // similar to Stock II
     // MEMOIZATION - TOP DOWN
     // T: O(n*2);
@@ -74,7 +74,7 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER - DP39.
+    // refer STRIVER - DP 39.
     // similar to Stock II
     // TABULATION - BOTTOM UP
     // T: O(n*2);
@@ -111,7 +111,7 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER - DP39.
+    // refer STRIVER - DP 39.
     // similar to Stock II
     // TABULATION - SPACE OPTIMIZED
     // T: O(n*2);
