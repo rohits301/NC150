@@ -1,5 +1,5 @@
 class Solution {
-    // refer STRIVER DP.36
+    // refer STRIVER DP 36.
     // BRUTE FORCE - RECURSION
     // T: O(2^n); exponential, two decision at every index
     // S: O(n); auxiliary stack space
@@ -47,7 +47,7 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER DP.36
+    // refer STRIVER DP 36.
     // BETTER - MEMOIZATION
     // TOP-DOWN
     // T: O(n*2); two decision at every index
@@ -91,7 +91,7 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER DP.36
+    // refer STRIVER DP 36.
     // BETTER - TABULATION
     // BOTTOM-UP
     // T: O(n*2); two decision at every index
@@ -137,7 +137,7 @@ class Solution {
 }
 
 class Solution {
-    // refer STRIVER DP.36
+    // refer STRIVER DP 36.
     // OPTIMAL - TABULATION (SPACE OPTIMIZED)
     // T: O(n*2); two decision at every index
     // S: O(1); dp array of size 2, total 4 units of space.
