@@ -33,13 +33,15 @@ class Solution {
      * 4. To create a subset - 2 choices for every index, `pick` and `notPick`.
      * 5. `pick` -> `i-1`, and `target-nums[i]`
      * 6. `notPick` -> `i-1` and `target` (remains as it is). 
-     * 7. We have a subset satisfiying the condition if either by picking or by not picking the current element we can make a subset with sum = `target`. So, OR condition in `pick` and `notPick`.
+     * 7. We have a subset satisfiying the condition if either by picking or by not picking the current element we can make a subset with sum = `target`. 
+     * So, OR condition in `pick` and `notPick`.
      * 8. Base Cases: 
      * a) `target = 0` -> achieved the target, TRUE
-     * b) at `i=0`, we can achieve target = `nums[0]`.
-
+     * b) at `i=0`, can we achieve target = `nums[0]`.
+     * 
      * NOTE: 
-     * 1. In array questions, to write a recurrence, rule of thumb: identify the changing states. One is index always and the other is generally the condition we want to satisfy. Here, the changing states are the current index `i` being considered and the `target` sum remaining.
+     * 1. In array questions, to write a recurrence, rule of thumb: identify the changing states. One is index always and the other is generally the condition we want to satisfy. 
+     * Here, the changing states are the current index `i` being considered and the `target` sum remaining.
      * 2. I have done this from `i=n-1 to i=0`, but can be done reverse as well. 
      */
     private boolean canPartitionTargetSumSubset(int[] nums, int target) {
