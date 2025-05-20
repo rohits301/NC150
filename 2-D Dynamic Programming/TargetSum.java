@@ -203,10 +203,6 @@ class Solution {
 
     private int dfs(int i, int k, int[] nums, int[][] dp) {
         // base case
-        if(k < 0){
-            return 0;
-        }
-
         if (i == 0) {
             if (k == 0 && nums[0] == 0) {
                 return 2;
