@@ -12,6 +12,7 @@ class Solution {
         boolean foundTarget1 = false;
         boolean foundTarget2 = false;
 
+        //triplet[0] is equivalent to triplets[i][0]
         for (int[] triplet : triplets) {
             // Check if this triplet is "valid" - i.e., none of its components
             // exceed the corresponding target component.
