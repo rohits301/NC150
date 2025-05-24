@@ -223,8 +223,7 @@ class Solution {
      * 0 for empty
      * 1 for opening
      * 3. Hence, here our range min and max will vary accordingly.
-     * 4. TODO: concise explanation of algorithm
-     * Algorithm Explanation:
+     * 4. Algorithm Explanation:
      * This greedy approach iterates through the string, maintaining a possible range
      * [min_open, max_open] for the count of open parentheses.
      * - `min_open`: Minimum possible open parentheses if '*' are used optimally to close (as ')').
@@ -239,24 +238,17 @@ class Solution {
      * Validation checks are performed after each character.
      * The string is valid if max_open never drops below 0, and min_open is 0 at the end.
      *
-     * 5. TODO: explain why min<0, we reset min
-     * Why `min_open` is reset to 0 if `min_open < 0`:
-     * `min_open` tracks the minimum number of *necessary* open parentheses.
-     * If processing a ')' or a '*' (as ')') causes `min_open` to go negative,
-     * it implies we have enough flexibility (due to preceding '*'s that could have been
-     * treated as empty instead of ')') to avoid an actual negative balance.
-     * Thus, `min_open` is capped at 0, as we can't have a "negative requirement" for open brackets;
-     * at worst, all open brackets so far could be matched.
+     * 5. Why `min_open` is reset to 0 if `min_open < 0`:
+     * min cannot be less than 0. If it is, it means a '*' was used as ')'
+     * unnecessarily, so we can treat that '*' as empty instead.
+     * This ensures min tracks the "necessary" open brackets.
      *
-     * 6. TODO: explain when max<0, we return false
-     * Why return `false` if `max_open < 0`:
-     * `max_open` tracks the maximum possible number of open parentheses, even if all '*'
-     * are treated as '('. If `max_open` drops below 0, it means there's an excess of
-     * closing parentheses ')' that cannot be matched even by interpreting all available '*'
-     * optimistically as '('. This makes the string definitively invalid.
-     * It's like encountering a ')' when the count of '(' (even with all '*' as '(') is already zero or negative.
+     * 6. Why return `false` if `max_open < 0`:
+     * If max becomes negative at any point, it means we have too many ')'
+     * that cannot be balanced even if all '*' were '('.
      *
-     * 7. The final string is balanced only if the `min == 0`.
+     * 7. For the string to be valid, all open brackets must be closable.
+     * The minimum number of open brackets that must exist at the end should be 0.
      */
     public boolean checkValidString(String s) {
         int min = 0; // min_open: Minimum possible count of open parentheses needed
