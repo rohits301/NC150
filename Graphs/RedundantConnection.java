@@ -1,6 +1,6 @@
 class Solution {
-    // refer NEETCODE for code
-    // refer STRIVER DSU for explanation
+    // refer NEETCODE for code and explanation
+    // refer STRIVER DSU also for explanation
     // T: O(V+ E*(alpha V))
     // S: O(V)
     /**
