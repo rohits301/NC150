@@ -1,5 +1,6 @@
 class Solution {
     // refer NEETCODE
+    // can use both DFS, BFS
     // BFS
     // T: O(V+E)
     // S: O(V+E)
@@ -46,5 +47,42 @@ class Solution {
             }
         }
     }
-    
+}
+
+class Solution {
+    // refer NEETCODE
+    // DFS
+    // T: O(V+E)
+    // S: O(V+E)
+    public static final int[][] directions = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
+
+    public int numIslands(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int count = 0;
+        boolean[][] visited = new boolean[m][n];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1' && !visited[i][j]) {
+                    dfs(i, j, grid, visited);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private void dfs(int i, int j, char[][] grid, boolean[][] visited) {
+        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] == '0' || visited[i][j] == true) {
+            return;
+        }
+
+        visited[i][j] = true;
+        for (int[] dir : directions) {
+            int x = i + dir[0];
+            int y = j + dir[1];
+            dfs(x, y, grid, visited);
+        }
+    }
 }
