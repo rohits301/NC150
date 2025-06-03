@@ -1,62 +1,87 @@
 class Solution {
-    // refer NC
-    // copied solution
-    // dijkstra algorithm
-    // T: O((n+m)*k); m = flights.length
-    // S: O(n*k);
-    public static final int INF = Integer.MAX_VALUE;
+    private class Pair {
+        int node;
+        int price;
 
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        List<int[]>[] adj = new ArrayList[n];
-
-        int[][] dist = new int[n][k + 5];
-        for (int[] ar : dist) {
-            Arrays.fill(ar, INF);
+        Pair(int node, int price) {
+            this.node = node;
+            this.price = price;
         }
+    }
 
+    private class Triplet {
+        int stops;
+        int node;
+        int price;
+
+        Triplet(int stops, int node, int price) {
+            this.stops = stops;
+            this.node = node;
+            this.price = price;
+        }
+    }
+    
+
+    // refer STRIVER 
+    // BRUTE/BETTER/OPTIMAL
+    // T: O(k*E);where E = flights.length, each path can be added at max k times.
+    // S: O(V + E)
+    // Dijkstra without PQ -> Bellman Ford
+    /**
+     * 1. Use Queue instead of PQ as stops increase linearly, by 1 everytime.
+     * 2. So, both will give same result but Queue has less TC compared to PQ.
+     * 3. If stops > k, no point in checking as stops is a critical condition.
+     * 4. Add in the queue only if current stops are less than k.
+     * 5. Pair class represents a Flight leg.
+     * 6. Triplet represents a Path state.
+     */
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        // construct graph
+        List<List<Pair>> adj = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            adj[i] = new ArrayList<>();
+            adj.add(new ArrayList<>());
         }
 
         for (int[] flight : flights) {
-            int s = flight[0]; // src
-            int d = flight[1]; // dest
-            int p = flight[2]; // price
-
-            adj[s].add(new int[] { d, p });
+            int from = flight[0];
+            int to = flight[1];
+            int price = flight[2];
+            adj.get(from).add(new Pair(to, price));
         }
 
-        dist[src][0] = 0;
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        // dijkstra - without PQ
+        int[] minCost = new int[n];
+        Arrays.fill(minCost, Integer.MAX_VALUE);
+        minCost[src] = 0;
 
-        pq.offer(new int[] { 0, src, -1 });
+        Queue<Triplet> q = new LinkedList<>();
+        q.offer(new Triplet(0, src, 0));
 
-        while (!pq.isEmpty()) {
-            int[] current = pq.poll();
-            int cost = current[0];
-            int node = current[1];
-            int stops = current[2];
+        while (!q.isEmpty()) {
+            Triplet triplet = q.poll();
+            int stops = triplet.stops;
+            int node = triplet.node;
+            int cost = triplet.price;
 
-            if (node == dst) {
-                return cost;
-            }
-            if (stops == k || dist[node][stops + 1] < cost) {
+            if (stops > k) {
                 continue;
             }
 
-            for (int[] nbr : adj[node]) {
-                int v = nbr[0];
-                int price = nbr[1];
+            for (Pair p : adj.get(node)) {
+                int adjNode = p.node;
+                int edgeWeight = p.price;
 
-                int nextCost = cost + price;
-                int nextStops = stops + 1;
-
-                if (dist[v][nextStops + 1] > nextCost) {
-                    dist[v][nextStops + 1] = nextCost;
-                    pq.offer(new int[] { nextCost, v, nextStops });
+                if (cost + edgeWeight < minCost[adjNode] && stops <= k) {
+                    minCost[adjNode] = cost + edgeWeight;
+                    q.offer(new Triplet(stops + 1, adjNode, minCost[adjNode]));
                 }
             }
         }
-        return -1;
+
+        if (minCost[dst] == Integer.MAX_VALUE) {
+            return -1; // cannot reach
+        }
+
+        return minCost[dst];
     }
 }
