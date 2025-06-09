@@ -1,8 +1,8 @@
 class Solution {
     // refer NEETCODE
     // BRUTE/BETTER
-    // T: O(n^2) - O(81)
-    // S: O(n) - O(9) for each set we have max 9 elements in it
+    // T: O(n^2) - O(81); each cell is visited thrice.
+    // S: O(n) - O(9) for each set we have max 9 elements in it, at any given time only one set exists.
     public boolean isValidSudoku(char[][] board) {
         int n = board.length; // n = 9
         Set<Character> set;
@@ -52,11 +52,11 @@ class Solution {
          * 3 4 5
          * 6 7 8
          * for first row squares - 0,1,2
-         * starting row is 0, starting colns. are 0,3,6
+         * starting row is 0, starting columns are 0,3,6
          * for second row squares - 3,4,5
-         * starting row is 3, starting colns. are 0,3,6
+         * starting row is 3, starting columns are 0,3,6
          * similarly, for third row squares - 6,7,8
-         * starting row is 6, starting colns. are 0,3,6
+         * starting row is 6, starting columns are 0,3,6
          * hence, the formula -
          * row = (square / 3) * 3
          * col = (square % 3) * 3
