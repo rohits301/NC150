@@ -28,6 +28,7 @@ class Solution {
 
 class Solution {
     // BETTER
+    // HARD TO REMEMBER AND A BIT UNUSUAL
     // T: O(n logn), S: O(n)
     public int[] topKFrequent(int[] nums, int k) {
         int[] ans = new int[k];
@@ -59,13 +60,11 @@ class Solution {
      * Approach: Min Heap (Priority Queue)
      * 
      * 1. Build a frequency map  
-     *    - Use a HashMap to count the occurrences of each number in nums.  
      *    - Example:  
      *      Input: [10, 20, 20, 20, 20, 20, 30, 30, 10, 20, 30]  
      *      Frequency Map: {10 -> 2, 20 -> 6, 30 -> 3}  
      *
      * 2. Use a Min Heap (PriorityQueue) to store the top K elements  
-     *    - A Min Heap is used to keep track of the k most frequent elements.  
      *    - The heap stores numbers sorted by their frequency in ascending order.  
      *    - The heap only keeps k elements, removing the least frequent ones as new elements are added.  
      *    - Example:  
@@ -139,7 +138,6 @@ class Solution {
      * APPROACH:
      * 
      * 1. Use a HashMap to count the frequency of each element:
-     *    - Iterate through `nums` and maintain a frequency count in a HashMap.
      *    - Example:
      *      Input: [10,20,20,20,20,20,30,30,10,20,30]
      *      Frequency Map: {10 -> 2, 20 -> 6, 30 -> 3}
