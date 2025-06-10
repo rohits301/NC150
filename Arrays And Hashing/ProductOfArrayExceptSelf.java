@@ -52,6 +52,8 @@ class Solution {
 class Solution {
     // OPTIMAL
     // T: O(n), S: O(1) extra space
+    // Since, only previous state is required, that is, lp[i-1] and rp[i+1]
+    // we can track these with variables only. 
     public int[] productExceptSelf(int[] nums) {
 
         int n = nums.length;
