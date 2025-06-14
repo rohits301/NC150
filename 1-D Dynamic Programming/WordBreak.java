@@ -1,6 +1,7 @@
 class Solution {
     // refer NEETCODE
     // TOP-DOWN (MEMOIZATION)
+    // RECURSION - gives TLE
     // T: O(n*m*t); n=s.length(), m=wordDict.length, t=max(wordDict[i].length())
     // S: O(n) + O(n); n = s.length(); stack space + dp space
     /**
