@@ -42,3 +42,41 @@ class Solution {
         return false;
     }
 }
+
+class Solution {
+    // Bottom Up (TABULATION)
+    // T: O(n*m*k); n = s.length(), k = avg. word length, m = wordDict.length
+    // S: O(n); dp space
+    /**
+     * Convert Recursion to Tabulation 
+     * 1. Copy the base case.
+     * 2. Iterate in opposite direction of recursion
+     * 3. Copy the recurrence relation
+     * 4. Early return will convert to either continue or break according to problem.
+     * In current case, early return means string from index `i` can be successfully segmented, so, no more searching, hence, BREAK.
+     * 5. Answer is at the index of invocation of recursion.
+     *
+     * SUMMARY FOR CONTINUE AND BREAK - 
+     * break = "I found the answer for dp[i]. Stop searching for i." (Translates a final return true for a subproblem).
+     * continue = "This specific option (w) won't work. Skip it and try the next option for i." (Translates a guard clause or a pruned path)
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[n] = true; // base case
+
+        for (int i = n - 1; i >= 0; i--) {
+            for (String w : wordDict) {
+                if (i + w.length() <= s.length() &&
+                    s.substring(i, i + w.length()).equals(w)) {
+
+                    if (dp[i + w.length()] == true) {
+                        dp[i] = true;
+                        break; // We're done with this i, move to i-1
+                    }
+                }
+            }
+        }
+        return dp[0];
+    }
+}
