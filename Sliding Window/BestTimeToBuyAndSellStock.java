@@ -1,7 +1,8 @@
 class Solution {
     // refer NEETCODE
     // BRUTE FORCE
-    // T: O(n^2), S: O(1)
+    // T: O(n^2)
+    // S: O(1)
     public int maxProfit(int[] prices) {
         int n = prices.length;
         int maxSoFar = 0;
@@ -22,7 +23,8 @@ class Solution {
 class Solution {
     // OPTIMAL
     // Sliding window type solution
-    // T: O(n), S: O(1)
+    // T: O(n)
+    // S: O(1)
     public int maxProfit(int[] prices) {
         int left = 0, right = 1, n = prices.length;
         int max = 0;
@@ -33,7 +35,8 @@ class Solution {
                 int profit = prices[right] - prices[left];
                 max = Math.max(max, profit);
             } else {
-                left = right;
+                left = right; // jump left to right because right is at a lower price
+                // we can only buy once, so we need to reset left to right
             }
             right++;
         }
@@ -50,7 +53,7 @@ class Solution {
      * 2. If we buy on `ith` day, can sell after `ith` day, so from
      * `i+1` to `n` day.
      * 3. We have to mandatorily buy on the first day. So, we start from `i=1`.
-     * 4. Keep track of profit, if profit is -ve, means, don't sell on `ith` day.
+     * 4. Keep track of profit, if profit is negative, means, don't sell on `ith` day.
      * 5. Keep track of minimum till now, because, to maximize profit, we have to buy on the day stock price is minimum and sell when the price is maximum.
      * 6. We buy when price = `min` and sell on `ith` day if profit > 0.
      * NOTE: It is a DP problem, because we are remembering the minimum as we are going forward.

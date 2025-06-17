@@ -8,7 +8,7 @@ class Solution {
         int ans = 0; 
 
         for (int i = 0; i < n; i++) {
-            int leftMax = height[i];  // Maximum height on the left of index 'i' (including itself)
+            int leftMax = height[i]; // Maximum height on the left of index 'i' (including itself)
             int rightMax = height[i]; // Maximum height on the right of index 'i' (including itself)
 
             // Find the maximum height to the left of index 'i'
@@ -36,10 +36,10 @@ class Solution {
 class Solution {
     // BETTER
     // refer STRIVER video and NEETCODE code
-    // pre-compute prefix sum (leftMax) and suffix sum (rightMax)
+    // pre-compute prefix array (leftMax) and suffix array (rightMax)
     // this saves time by using O(2n) space
     // T: O(n) - Three passes: one for leftMax, one for rightMax, and one for computing trapped water.
-    // S: O(n) - Two auxiliary arrays (leftMax, rightMax) of size n.
+    // S: O(n) - Two auxiliary arrays (leftMax, rightMax) of size n each.
     public int trap(int[] height) {
         int n = height.length; 
         int ans = 0; 

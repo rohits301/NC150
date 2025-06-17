@@ -5,9 +5,8 @@ class Solution {
     // S: O(n) - will be O(26) as map would have max 26 unique keys
     /*
      * 1. Use map to count frequency of the characters.
-     * 2. Whenever for the current substring under consideration (`i to j`), if `windowLength - maxFrequency > k`
-     * then, we the window is invalid, hence break. Because, further strings will have the above equation as true only, so breaking
-     * and not considering further substrings for these `i` and `j` saves time.
+     * 2. For the current substring under consideration (`i to j`), if `windowLength - maxFrequency > k`
+     * then, the window is invalid because we cannot replace more than `k` characters, hence break. We break because, further strings will have the above equation as true only for these `i` and `j`, hence not considering further substrings saves time.
      * 3. Keep updating the `maxLength`.
      */
     public int characterReplacement(String s, int k) {
@@ -45,7 +44,7 @@ class Solution {
         int n = s.length();
 
         for (int i = 0; i < n; i++) {
-            char[] freq = new char[26];
+            int[] freq = new int[26];
             int maxFrequency = 0;
             for (int j = i; j < n; j++) {
                 char ch = s.charAt(j);
@@ -68,8 +67,8 @@ class Solution {
     // T: O(n)
     // S: O(26)
     /*
-     * 1. Instead of changing the window itself, like in previous approach where we break from loop in case of invalid window.
-     * 2. We can slide the window instead. Slide -> release the `left` character until the window is valid again.
+     * 1. Instead of changing the window itself like in previous approach where we break from loop in case of invalid window, we can slide the window instead. 
+     * 2. Slide -> release the `left` character until the window is valid again.
      * 3. Condition for valid window -> `windowSize - maxFrequency <= k`. `windowSize = right - left + 1`
      * 4. Basically, count of non-repeating characters <= k for valid window, only then we can do `k` replacements.
      * 5. Acquire characters from `right` and check if window is valid.

@@ -49,7 +49,7 @@ class Solution {
     // S: O(1); 2 arrays of size 26
     /*
      * 1. Choti string - `s1`, Badi string - `s2`
-     * 2. Building upon prev. approach, anagram check can be done using array as well instead of a sorting.
+     * 2. Building upon prev. approach, anagram check can be done using array instead of a sorting.
      * 3. Check - If both strings have the same frequency array, then they are anagrams. That is, same characters appear in both strings with the same frequency.
      * 4. Code -
      * a) Make a frequency array for `s1`.
@@ -78,8 +78,8 @@ class Solution {
             for (int j = 0; j < n; j++) {
                 char ch = s2.charAt(i + j);
                 s2Arr[ch - 'a']++;
-
             }
+
             if (matches(s1Arr, s2Arr)) {
                 return true;
             }
@@ -107,8 +107,8 @@ class Solution {
      * `s2Arr` = count of frequencies of first `n` characters (first window)
      * 6. Iterate over the remaining windows in `s2`, `m-n` windows.
      * Each window is of length `n`.
-     * 7. Acquire the character at `start+n` 
-     * Release the character at `start`
+     * 7. Acquire the character at `start + n` 
+     * and release the character at `start`
      * 8. Compare both arrays whether they match.
      * NOTE: The last return call is to check if the last window is valid.
      */
