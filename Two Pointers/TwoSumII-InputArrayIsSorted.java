@@ -3,6 +3,7 @@ class Solution {
     // OPTIMAL
     // T: O(n) 
     // S: O(1)
+    // indices are 1-based so we need to return i+1 and j+1
     public int[] twoSum(int[] numbers, int target) {
         int n = numbers.length;
         int[] ans = new int[2];

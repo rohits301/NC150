@@ -22,7 +22,7 @@ class Solution {
 
 class Solution {
     // BETTER
-    // T: O(n), S: O(2n = n)
+    // T: O(n), S: O(2n) = O(n)
     public int[] productExceptSelf(int[] nums) {
         
         int n = nums.length;

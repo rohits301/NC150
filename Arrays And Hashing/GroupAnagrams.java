@@ -10,8 +10,8 @@ class Solution {
      * 4. Since, the sorted string is unique, hence, it can be used as a key in hashmap.
      * 5. We need a map to store anagrams corresponding to each string.
      * 6. So, we construct a `hashmap(String, List<String>)` with sorted string as key and add the current string into the ArrayList.
-     * Eg. str = "nat", keyStr = "ant", (key, value) -> ("ant", ["nat", "tan"])
-     * 7. In the end, construct arraylist from map values, as `map.values()` returns us the arraylist of anagrams.
+     * Eg. str = "nat", keyStr = "ant", (key, value) -> ("ant", ["nat"])
+     * 7. In the end, construct arraylist from map values as `map.values()`. This returns us the arraylist of anagrams.
      * NOTE: `putIfAbsent()` -> Put this key-value pair into the map only if the key is not already present (or is present but mapped to null).
      */
     public List<List<String>> groupAnagrams(String[] strs) {

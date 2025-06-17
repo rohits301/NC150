@@ -14,7 +14,7 @@ class Solution {
                 if (board[i][j] == '.') {
                     continue;
                 }
-                // auto-type cast to int
+                // auto-boxing of char to Character
                 if (set.contains(board[i][j])) {
                     return false;
                 } else {
@@ -30,7 +30,7 @@ class Solution {
                 if (board[i][j] == '.') {
                     continue;
                 }
-                // auto-type cast to int
+                // auto-boxing of char to Character
                 if (set.contains(board[i][j])) {
                     return false;
                 } else {
@@ -76,7 +76,7 @@ class Solution {
                     if (board[r][c] == '.') {
                         continue;
                     }
-                    // auto-type cast to int
+                    // auto-boxing of char to Character
                     if (set.contains(board[r][c])) {
                         return false;
                     } else {

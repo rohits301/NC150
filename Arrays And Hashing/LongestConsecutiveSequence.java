@@ -1,8 +1,11 @@
 class Solution {
     // refer STRIVER's Video - all approaches
-    // BRUTE FORCE
-    // T: O(n^3), S: O(1) 
-    // TLE
+    // BRUTE FORCE - TLE
+    // T: O(n^3)
+    // S: O(1) 
+    /**
+     * Linear search every consecutive element for every nums[i]
+     */
     public int longestConsecutive(int[] nums) {
         int longest = 0;
         int n = nums.length;
@@ -33,7 +36,16 @@ class Solution {
 
 class Solution {        
     // BETTER
-    // T: O(nlogn), S: O(1)
+    // T: O(nlogn)
+    // S: O(1)
+    /**
+     * 1. Sort the array
+     * 2. Iterate through the array and check for consecutive elements
+     * 3. If the current element is one more than the previous element, increment the count -> `nums[i] - 1 == lastSmaller`, it is a continuation of the sequence
+     * 4. If the current element is not equal to the previous element, reset the count to 1 and update lastSmaller -> `nums[i] != lastSmaller`
+     * 5. If the current element is equal to the previous element, skip it (to avoid duplicates) -> `nums[i] == nums[i-1]`
+     * 6. Update the longest count if the current count is greater than the longest count
+     */
     public int longestConsecutive(int[] nums) {
         Arrays.sort(nums);
 
@@ -42,8 +54,7 @@ class Solution {
 
         for (int i = 0; i < n; i++) {
             // always update last smaller in case of sequence or no sequence
-            // in case when nums[i] == lastSmaller, then, start a new sequence
-            // nums[i] == nums[i-1], then, it is duplicate element and we do nothing and go to next iteration
+            // and skip duplicates
             if (nums[i] - 1 == lastSmaller) {
                 count += 1;
                 lastSmaller = nums[i];
@@ -61,23 +72,25 @@ class Solution {
 
 class Solution {
     // OPTIMAL
-    // Optimal - O(n) time and space both
-    // the iteration in inner while is max. n so O(n+n+n = n) time
+    // Optimal 
+    // T: O(n)
+    // S: O(n)
+    // the iteration in inner while is maximum `n` so O(n+n+n) = O(n) time
     public int longestConsecutive(int[] nums) {
         Set<Integer> set = new HashSet<>();
         int longest = 0;
 
-        // Store all the elements in a set to avoid duplicates as they do not affect our calcn.
+        // Store all the elements in a set to avoid duplicates as they do not affect our calculation.
         for(int num : nums){
             set.add(num);
         }
         
         // iterate thru all elements in set
         for(int num : set){
-            int x = 1, count=1;
+            int x = 1, count = 1;
             // check if num is a valid starting point, i.e., there is no 'num-1' in the set
-            if(!set.contains(num-1)){
-                while(set.contains(num+x)){
+            if(!set.contains(num - 1)){
+                while(set.contains(num + x)){
                     x += 1;
                     count += 1;
                 }

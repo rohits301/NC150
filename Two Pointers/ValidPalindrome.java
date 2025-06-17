@@ -1,5 +1,5 @@
-// 1st Solution, using String methods of alphanumeric and lowercase
 class Solution {
+    // 1st Solution, using String methods of alphanumeric and lowercase
     // T: O(n), S: O(n)
     public boolean isPalindrome(String s) {
         if(s.length() == 1) return true;
@@ -21,9 +21,9 @@ class Solution {
     }
 }
 
-// 2nd Solution, better, without using any external library
 class Solution {
-    // T: O(n), S: O(1) as no extra space as we do not use lower case method
+    // 2nd Solution, better, without using any external library
+    // T: O(n), S: O(1) as no extra space because we do not use lower case method
     public boolean isPalindrome(String s) {
         
         int i=0,j=s.length()-1;
@@ -68,8 +68,8 @@ class Solution {
     }
 }
 
-// 3rd Solution, suggested improvements by ChatGPT that maintain the time and space complexity
 class Solution {
+    // 3rd Solution, suggested improvements by ChatGPT that maintain the time and space complexity
     // Time: O(n), Space: O(1) (no extra space for lowercase conversion)
     public boolean isPalindrome(String s) {
         int i = 0, j = s.length() - 1;
