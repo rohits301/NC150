@@ -13,6 +13,18 @@ class Solution {
     // BRUTE/BETTER/OPTIMAL
     // T: O(Max(n, m));
     // S: O(Max(n, m)); - space for answer, no extra space
+    /**
+     * Approach:
+     * 1. Initialize a dummy node to help build the result linked list.
+     * 2. Maintain a carry variable to handle sums greater than 9.
+     * 3. In each iteration, sum the values of the current nodes of l1 and l2 along with the carry.
+     * 4. Create a new node with the value of the `sum % 10` and add it to the result linked list.
+     * 5. Update the carry to be the `sum / 10`.
+     * 6. Move the pointers of l1 and l2 to their next nodes.
+     * 7. Continue until both linked lists are fully traversed.
+     * 8. If there's any carry left after the last addition, create a new node with that carry value.
+     * 9. Return the next node of the dummy node, which is the head of the result linked list.
+     */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(-1);
         ListNode curr = dummy;

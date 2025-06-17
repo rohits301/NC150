@@ -46,7 +46,6 @@ class Solution {
 
             temp = temp.next;
         }
-
         return oldToNew.get(head);
     }
 }

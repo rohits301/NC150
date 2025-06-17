@@ -1,18 +1,46 @@
+public class Solution {
+    // BRUTE FORCE
+    // T: O(n^2), S: O(1)
+    public int findDuplicate(int[] nums) {
+        for(int i = 0; i < nums.length; i++){
+            for(int j = i + 1; j < nums.length; j++){
+                if(nums[i] == nums[j]){
+                    return nums[i];
+                }
+            }
+        }
+        return -1; // no duplicate found
+    }
+}
+
+public class Solution {
+    // BETTER
+    // T: O(n), S: O(n)
+    // use HashSet or frequency array[n+1] to find duplicate
+    public int findDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            if(set.contains(nums[i])){
+                return nums[i];
+            } else {
+                set.add(nums[i]);
+            }
+        }
+        return -1; // no duplicate found
+    }
+}
+
 class Solution {
     // refer STRIVER
-    // BRUTE FORCE - T: O(nlogn), S: O(1)
-    // sort the array and check if nums[i] == nums[i-1]
-    // BETTER - T: O(n), S: O(n)
-    // use HashSet or frequency array[n+1] to find duplicate
     // OPTIMAL - T: O(n), S: O(1)
     /*
      * Tortoise-Hare algorithm 
-     * Detect cycle in Linked List and then find the starting point 
+     * 1. Detect cycle in Linked List and then find the starting point 
      * of the cycle.
-     * Proof in Striver video
-     * This can be done without actually creating a linked list.
-     * We use the fact that numbers are in range [1,n]
-     * so, Imaging a list with nodes as nums[i]
+     * 2. Proof in Striver video
+     * 3. This can be done without actually creating a linked list.
+     * 4. We use the fact that numbers are in range [1,n]
+     * so, imagine a list with nodes as nums[i]
      * linked like -> nums[i].next = nums[nums[i]];
      */
     public int findDuplicate(int[] nums) {
@@ -27,7 +55,9 @@ class Solution {
 
         // for starting point
         // reset fast and move both by 1
-        // can rest any one pointer btw.
+        // can reset any one pointer because both are at same point.
+        // For the algorithm to work, we need any one pointer to start
+        // from head.
         fast = nums[0];
         while(slow != fast){
             slow = nums[slow];
