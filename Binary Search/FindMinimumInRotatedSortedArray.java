@@ -22,6 +22,9 @@ class Solution {
     // OPTIMAL
     // refer STRIVER's video
     // T: O(log n), S: O(1)
+    // important to consider mid in one sorted half. So, we consider in first half. Why?
+    // in case of array of size - 2, e.g. [3,1] and target = 1
+    // this works correctly.
     public int findMin(int[] nums) {
         int lo = 0, hi = nums.length - 1;
         int ans = Integer.MAX_VALUE;
