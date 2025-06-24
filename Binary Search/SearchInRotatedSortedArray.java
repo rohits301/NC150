@@ -23,9 +23,11 @@ class Solution {
     // S: O(1)
     /*
      * 1. Since array is sorted, think Binary search.
-     * 2. Left sorted half -> [lo, mid]
+     * 2. Left sorted half -> [lo, mid] - Why include mid here? and not in the other half
+     * Because, we use <= to include mid in this check. This correctly handles
+     * cases with 1 or 2 elements, where lo can equal mid.
      * 3. Right sorted half -> [mid + 1, hi]
-     * 4. If the target lies in left sorted half, then reduce `hi` to `mid-1`, indicating that our new search area is only upto `mid`.
+     * 4. If the target lies in left sorted half, go left and reduce `hi` to `mid-1`, indicating that our new search area is only upto `mid`.
      * 5. else, increase `lo` to `mid + 1`, as the target is not in left sorted half.
      * 6. Similarly, for right. If it is in the right sorted half, we set `lo = mid + 1`, as new search area is after `mid`.
      * 7. Condition for finding the target is same as in binary search. `nums[mid] == target`.
