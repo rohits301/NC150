@@ -40,13 +40,13 @@ class Solution {
      * Detailed complexity analysis -> 
      * T: O(N * M) where N = number of strings, M = max length of a string
      * K = 26 (alphabet size)
-     * Inner loop: O(M) for counting + O(K) for key building + O(K) for map ops = O(M+K)
+     * Inner loop: O(M) for counting + O(K) for key building + O(K) for map operations = O(M+K)
      * Total: O(N * (M+K)) = O(N*M) since K is constant.
      * S: O(N * M + N * K) = O(N*M) - For storing the result lists (N*M chars) and map keys (N*K max)
      */
     /*
     * SAME APPROACH AS ABOVE
-    * ONLY CHANGE: instead of sorting, use frequency array.
+    * ONLY CHANGE: instead of sorting, use frequency array of size=26.
     */
     public List<List<String>> groupAnagrams(String[] strs) {
         if(strs == null || strs.length == 0){
@@ -60,7 +60,8 @@ class Solution {
                 frequencyArr[str.charAt(i) - 'a']++;
             }
             
-            String key = new String(frequencyArr); // cannot use `.toString()` because `char[].toString()` calls `Object.toString()`, which returns a memory address-like format ([C@hashcode])
+            // cannot use `.toString()` because `char[].toString()` calls `Object.toString()`, which returns a memory address-like format ([C@hashcode])
+            String key = new String(frequencyArr);             
             List<String> temp = map.getOrDefault(key, new ArrayList<String>());
             temp.add(str);
             map.put(key, temp);
