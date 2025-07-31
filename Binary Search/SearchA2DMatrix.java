@@ -3,8 +3,10 @@ class Solution {
     // BETTER 
     // T: O(m * logn)
     // S: O(1)
+    /**
+     * Binary search in every 1D row of the matrix
+     */
     public boolean searchMatrix(int[][] matrix, int target) {
-        // BS in every 1d array of row
         int m = matrix.length;
         int n = matrix[0].length;
 

@@ -43,26 +43,27 @@ class Solution {
 
 class Solution {
     // refer Lord STRIVER
-    // T: O(min (log m), (log n))
+    // T: O(min(log m, log n))
     // S: O(1)
     /*
-     * 1) We will try the partitioning with smaller length array. 
-     * 2) Only one possible solution - by observation
-     * 3) Binary search can be done on smaller length, so on `min(m, n)`
-     * 4) condition for valid split -> `l1 <= r2 && l2 <= r1` (cross-checks)
-     * 5) Initially, lo = 0, hi = m; (assuming m is always smaller length). 
-     * Imagine that nums1 is always the smaller length array and we do Binary Search on it.
-     * 6) `l1 > r2 => hi = mid1 - 1;` Binary search is on nums1 and here as l1 is large, so right half is to eliminated. 
-     * 7) `r1 < l2 => lo = mid1 - 1;` since left half is too small, so increase lo.
-     * 8) for Even -> `median = (max(l1, l2) + min(r1, r2)) / 2.0;`
-     * 9) for Odd -> we split the array such that, left half always has more number of elements. so, `median = max(l1,l2)`.
-     * 10) Reason for dividing like, left half is larger ->
-     * because it works for both even and odd length cases.
-     * 11) `countLeft = (m + n + 1)/2;` 
-     * 12) for m = 2, n = 4 -> countLeft = 7/2 = 3, both halves have equal elements.
-     * 13) for m = 2, n = 3 -> countLeft = 6/2 = 3, so left half here has more elements.
-     * 14) eg. nums1 = [1,2,3,4,9,11], nums2 = [7,12,14,15]
-     * 15) eg. nums1 = [1,3,4,7,10,12], nums2 = [2,3,6,15]
+     * 1. We perform a binary search on the smaller array to find the valid partition 
+     * where every element in the left half is less than or equal to every element in the right half.
+     * 2. There will exist only one solution, only one valid symmetry as array can have only one median.
+     * 3. The search space for the partition in an array of size 'm' is [0, m], as there are `m+1` possible cuts. 
+     * 4. Binary search to try all partitions. So, we partition the array and define l1,l2,r1,r2 around the partition.
+     * 5. Since the arrays are sorted in themselves, so we just need to check in cross-direction that `l1 <= r2` && `l2 <= r1` to validate symmetry.
+     * 6. If cross-conditions are satisifed => correct partition, return as only one valid symmetry.
+     * 7. If `l1 > r2`, the partition in nums1 is too large. We move the cut left by setting `hi = mid1 - 1`.
+     * If `l2 > r1`, the partition is too small. We move the cut right by setting `lo = mid1 + 1`.
+     * 8. The left partition is designed to hold one extra element for odd total lengths.
+     * - For even lengths: `median = (max(l1, l2) + min(r1, r2)) / 2.0`
+     * - For odd lengths: `median = max(l1, l2)`
+     * NOTE: Reason for dividing like this - this way, left half is larger.
+     * This works for both even and odd length cases.
+     * `countLeft = (m + n + 1)/2;` 
+     * for m = 2, n = 4 -> countLeft = 7/2 = 3, both halves have equal elements.
+     * for m = 2, n = 3 -> countLeft = 6/2 = 3, so left half here has more elements.
+     * eg. nums1 = [1,3,4,7,10,12], nums2 = [2,3,6,15] 
      */
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         if(nums1.length > nums2.length){
@@ -71,7 +72,7 @@ class Solution {
             nums1 = nums2;
             nums2 = temp;
         }
-        
+        // nums1 is always the smaller array in our case
         int m = nums1.length;
         int n = nums2.length;
 
@@ -80,7 +81,7 @@ class Solution {
         double ans = 0;
         
         while(lo <= hi){
-            int mid1 = (lo + hi) >> 1; // another way of binary division
+            int mid1 = (lo + hi) >> 1; // another way for divide by 2
             int mid2 = countLeft - mid1;
             int l1 = Integer.MIN_VALUE, l2 = Integer.MIN_VALUE;
             int r1 = Integer.MAX_VALUE, r2 = Integer.MAX_VALUE;
@@ -103,13 +104,14 @@ class Solution {
                     // odd
                     ans = Math.max(l1, l2) * 1.0;
                 } else {
+                    // even
                     ans = (Math.max(l1, l2) + Math.min(r1, r2))/ 2.0;
                 }
                 break;
             } else if(l1 > r2){
                 hi = mid1 - 1;
             } else {
-                // r1 < l2
+                // l2 > r1
                 lo = mid1 + 1;
             }
         }

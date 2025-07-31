@@ -19,6 +19,10 @@ class Solution {
      * 8. Base case - the recursion stops when we reach end of the array. If `target == 0` here, then add the data structure to ans.
      * 9. `return;` is executed after the inner `if` for target, because whenver we hit the base case, we want the recursion to stop
      * regardless whether the target is achieved or not as all possible outcomes have been explored.
+     *
+     * NOTE: Memoization is not a suitable or practical optimization for this specific problem, even though it has overlapping subproblems.
+     * The reason is we have to constantly create new list objects, copy combinations from sub-solutions into them, 
+     * and merge them before storing them in the cache. And that is memory intensive process.
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> ans = new ArrayList<>();
