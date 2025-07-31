@@ -37,9 +37,11 @@ class Solution {
 
             if(t1 != null){
                 sum += t1.val;
+                t1 = t1.next;
             }
             if(t2 != null){
                 sum += t2.val;
+                t2 = t2.next;
             }   
 
             carry = sum / 10;
@@ -47,13 +49,6 @@ class Solution {
             ListNode node = new ListNode(sum % 10);
             curr.next = node;
             curr = curr.next;
-
-            if(t1 != null){
-                t1 = t1.next;
-            }
-            if(t2 != null){
-                t2 = t2.next;
-            }
         }
 
         if(carry > 0){

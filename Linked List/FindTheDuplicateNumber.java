@@ -42,6 +42,9 @@ class Solution {
      * 4. We use the fact that numbers are in range [1,n]
      * so, imagine a list with nodes as nums[i]
      * linked like -> nums[i].next = nums[nums[i]];
+     * 5. This works because according to the problem, the numbers are in the range
+     * [1,n], where length of nums is n+1.
+     * So, nums[i] will always point to a valid index in the array.
      */
     public int findDuplicate(int[] nums) {
         int slow = nums[0];
