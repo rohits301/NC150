@@ -21,7 +21,7 @@ class Solution {
     // S: O(n) - hashmap of old and new nodes
     /*
      * Two pass
-     * first pass - make all new nodes
+     * first pass - create all new nodes
      * and create mapping hashmap: old -> new
      * second pass - link next and random pointers for new nodes
      * Head of new list = map.get(head);
