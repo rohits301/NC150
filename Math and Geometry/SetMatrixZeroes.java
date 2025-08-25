@@ -1,10 +1,13 @@
 class Solution {
     // BRUTE/BETTER
-    // if any element in the matrix is 0, then that entire row will be 0 and so will be the column
-    // so instead of marking whole row as 0, just mark that row and that column
-    // so two 1D arrays are enough for this
     // T: O(m*n*2)
     // S: O(m+n)
+    /**
+     * Intuition and Approach: 
+     * 1. If an element is 0, its entire row and column should be 0.
+     * 2. We can use two additional 1D arrays to keep track of which rows and columns need to be zeroed.
+     * 3. Finally, we can iterate through the matrix and set the appropriate elements to 0.
+     */
     public void setZeroes(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
@@ -36,13 +39,14 @@ class Solution {
     // S: O(1)
     // improving on BETTER
     /*
+     * Challenge:
      * since time will not be less than m*n
-     * we go after the space, so in-place
-     * one major problem - the order of marking
-     * and how to keep the matrix[0][0]
-     * so, separate variable to track col0
-     * colMarker[n] -> matrix[0][...]
+     * we try for space optimization, so in-place
+     * one major problem - if we treat the 0th row and 0th column as markers
+     * then, what would matrix[0][0] imply as it is common to both 0th row and 0th column?
+     * Solution - keep separate variable `col0` to track 0th column.
      * rowMarker[m] -> matrix[...][0]
+     * colMarker[n] -> matrix[0][...]
      */
     
     public void setZeroes(int[][] matrix) {
@@ -75,7 +79,7 @@ class Solution {
             }
         }
 
-        // The 0th column values are tracked by col0
+        // The 0th column values are tracked by `col0`
         // the 0th row is tracked by matrix[0][0]
         // Applying the result of `col0` first will change the entire 0th column, including matrix[0][0]
         // So, this will result in incorrect values

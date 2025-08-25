@@ -4,6 +4,24 @@ class Solution {
     // OPTIMAL
     // T: O(n*m)
     // S: O(1)
+    /*
+     * Intuition:
+     * 1. We need to traverse the matrix in a spiral order.
+     * 2. We can achieve this by maintaining four pointers: top, bottom, left, and right.
+     * 3. We will keep moving in the right, down, left, and up directions while updating the pointers.
+     *
+     * Approach:
+     * 1. Initialize the four pointers.
+     * 2. Use a while loop to traverse the matrix in a spiral order.
+     * 3. Update the pointers after each direction is completed.
+     * 4. Continue the process until all elements are traversed.
+     * Why the extra if-checks?
+     * To avoid adding duplicate elements in case of single row or single column matrices.
+     * For single row, `matrix[top][i]` is repetition
+     * For single column, `matrix[i][left]` is repetition
+     * E.g. matrix[][] = {{1, 2, 3}}, single row case
+     *      matrix[][] = {{1}, {2}, {3}}, single column case
+     */
     public List<Integer> spiralOrder(int[][] matrix) {
         // directions -> right, bottom, left, top
         int m = matrix.length;
@@ -11,12 +29,6 @@ class Solution {
         int top = 0, bottom = m - 1;
         int left = 0, right = n - 1;
         List<Integer> ans = new ArrayList<>();
-
-        // extra if-checks for single row & single column matrix
-        // single row case, top = bottom
-        // so matrix[bottom][i] is repitition
-        // similarly, for single column, left = right
-        // so matrix[i][left] is repitition
 
         while (top <= bottom && left <= right) {
             for (int i = left; i <= right; i++) {

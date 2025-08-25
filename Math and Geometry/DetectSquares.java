@@ -1,53 +1,91 @@
 // refer NEETCODE
-// BRUTE/BETTER
-// T: add - O(1), count - O(n)
-// S: O(n); or map and points list.
+// BRUTE / BETTER
+// T: add() -> O(1), count() -> O(n)
+// S: O(n); for map and points list.
 /*
- * 1. We can maintain an array list to store all the points because we don't know the size of the incoming stream. 
- * 2. For points, also, store it in an ArrayList, because we need to use them as keys in our hashmap.
- * 3. Idea - 
- * Maintain a `List<List<Integer>> points` and hashmap with key as point and value as it's frequency.
- * 4. add() - add point to list and map and increase frequency.
- * 5. count() - 
- * For detecting square, we can check the diagonal. If x and y difference with diagonal is equal, implies sides are equal, hence square.
- * So, we iterate over the list and check - 
- a) if the point qualifies to be a diagonal. 
- b) it is not the same point, i.e., its x and y coordinates are different from given (px, py).
- * Total sqaures = product of frequencies of both points (x, py) and (px, y).
- * Note - For duplication in x and y, this operation is performed again as list can have duplicates.
+ * Idea:
+ * 1. Maintain both a `pointsList` and a `pointsCount` map.
+ * 2. pointsList -> stores all points (including duplicates).
+ * 3. pointsCount -> hashmap with key = Point, value = frequency.
+ * 
+ * add():
+ * - Insert the point into both list and map, update its frequency.
+ * 
+ * count(point):
+ * - To form a square with (px, py), we need diagonal point (x, y).
+ * - For (px, py) and (x, y) to form diagonal:
+ *      a) |px - x| == |py - y|  (equal sides)
+ *      b) x != px && y != py   (not same row/col)
+ * - The other 2 points must be (x, py) and (px, y).
+ * - Total # of such squares = freq(x, y) * freq(x, py) * freq(px, y).
+ * - Iterate over pointsList to find valid diagonals.
+ * 
+ * Note:
+ * - Duplicates handled by storing frequency in map.
+ * - Custom Point object used since list keys must be immutable.
+ * - We multiply the three frequencies because each occurrence of the diagonal point can form a square with every occurrence of the two adjacent points. This is essentially the Cartesian product of the three sets of points, so the total number of distinct squares is f1 × f2 × f3.
+ * - Also, we don't multiply by freq(px, py) because the query point is fixed and not chosen from the data structure.
  */
 class DetectSquares {
-    Map<List<Integer>, Integer> pointsCount;
-    List<List<Integer>> points;
+    Map<Point, Integer> pointsCount;
+    List<Point> pointsList;
+
+    public static class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() { return x; }
+        public int getY() { return y; }
+
+        public int hashCode() {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + x;
+            result = prime * result + y;
+            return result;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof Point)) return false;
+            Point other = (Point) obj;
+            return x == other.x && y == other.y;
+        }
+    }
 
     public DetectSquares() {
         pointsCount = new HashMap<>();
-        points = new ArrayList<>();
+        pointsList = new ArrayList<>();
     }
 
     public void add(int[] point) {
-        List<Integer> pt = Arrays.asList(point[0], point[1]);
-        points.add(pt);
+        Point pt = new Point(point[0], point[1]);
+        pointsList.add(pt);
         pointsCount.put(pt, pointsCount.getOrDefault(pt, 0) + 1);
     }
 
     public int count(int[] point) {
         int res = 0;
+        int px = point[0], py = point[1];
 
-        int px = point[0];
-        int py = point[1];
-        for (List<Integer> pts : points) {
-            int x = pts.get(0);
-            int y = pts.get(1);
+        for (Point pt : pointsList) {
+            int x = pt.getX(), y = pt.getY();
 
+            // check diagonal condition
             if (Math.abs(px - x) != Math.abs(py - y) ||
-                (x == px) ||
+                (x == px) || 
                 (y == py)) {
                 continue;
             }
 
-            res += (pointsCount.getOrDefault(Arrays.asList(x, py), 0) *
-                    pointsCount.getOrDefault(Arrays.asList(px, y), 0));
+            // freq(x, y) is implicitly handled by iteration over list
+            res += (pointsCount.getOrDefault(new Point(px, y), 0) *
+                    pointsCount.getOrDefault(new Point(x, py), 0));
         }
         return res;
     }
@@ -55,46 +93,83 @@ class DetectSquares {
 
 // refer NEETCODE
 // OPTIMAL
-// T: add - O(1), count - O(n)
-// S: O(n); or map and points list.
+// T: add() -> O(1), count() -> O(n)
+// S: O(n); only map is used.
 /*
- * 1. Same approach conceptually.
- * 2. Change - instead of iterating over List that has duplicates, we iterate over the map, this saves time, but the overall worst case complexity remains same.
- * 3. Since, `x` and `y` can also be duplicates, so we multiply with their frequency as well in the count of squares as well.
+ * Improvement:
+ * - We don’t need pointsList, since pointsCount already tracks frequencies.
+ * - Iterate over pointsCount instead of pointsList.
+ * 
+ * add():
+ * - Insert point into map and update frequency.
+ * 
+ * count(point):
+ * - Same diagonal logic as brute.
+ * - But now we explicitly multiply by freq(x, y) from map (since list is gone).
+ * - For each valid diagonal (x, y):
+ *      res += freq(x, y) * freq(x, py) * freq(px, y)
+ * 
+ * Benefit:
+ * - Saves space (no list).
+ * - Iteration on map avoids duplicate entries in list.
  */
 class DetectSquares {
-    Map<List<Integer>, Integer> pointsCount;
-    List<List<Integer>> points;
+    Map<Point, Integer> pointsCount;
+
+    public static class Point {
+        private int x;
+        private int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() { return x; }
+        public int getY() { return y; }
+
+        public int hashCode() {
+            int prime = 31;
+            int result = 1;
+            result = prime * result + x;
+            result = prime * result + y;
+            return result;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof Point)) return false;
+            Point other = (Point) obj;
+            return x == other.x && y == other.y;
+        }
+    }
 
     public DetectSquares() {
         pointsCount = new HashMap<>();
-        points = new ArrayList<>();
     }
 
     public void add(int[] point) {
-        List<Integer> pt = Arrays.asList(point[0], point[1]);
-        points.add(pt);
+        Point pt = new Point(point[0], point[1]);
         pointsCount.put(pt, pointsCount.getOrDefault(pt, 0) + 1);
     }
 
     public int count(int[] point) {
         int res = 0;
+        int px = point[0], py = point[1];
 
-        int px = point[0];
-        int py = point[1];
-        for (List<Integer> key : pointsCount.keySet()) {
-            int x = key.get(0);
-            int y = key.get(1);
+        for (Point key : pointsCount.keySet()) {
+            int x = key.getX(), y = key.getY();
             int countPt = pointsCount.get(key);
 
+            // check diagonal condition
             if (Math.abs(px - x) != Math.abs(py - y) ||
-                    (x == px) ||
-                    (y == py)) {
+                (x == px) || (y == py)) {
                 continue;
             }
 
-            int count1 = pointsCount.getOrDefault(Arrays.asList(x, py), 0);
-            int count2 = pointsCount.getOrDefault(Arrays.asList(px, y), 0);
+            int count1 = pointsCount.getOrDefault(new Point(x, py), 0);
+            int count2 = pointsCount.getOrDefault(new Point(px, y), 0);
+
             res += (countPt) * (count1 * count2);
         }
         return res;

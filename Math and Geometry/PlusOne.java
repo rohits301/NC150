@@ -9,9 +9,9 @@ class Solution {
      * 3. So, instead of creating a new array, we can return original array with updated values.
      * 4. Edge case - 
      * the array has an overflowing 1 - 
-     * e.g digits = [9]
-     * digits = [9,9]
-     * 5. So, in this case, all the other digits are zero and there is a leading 1.
+     * e.g a) digits = [9], res = [1,0]
+     *    b) digits = [9,9], res = [1,0,0]
+     * 5. So, in that case, all the other digits are zero and there is a leading 1.
      * Hence, we create an array of size = n + 1 and set `res[0] = 1` for the leading 1.
      */
     public int[] plusOne(int[] digits) {

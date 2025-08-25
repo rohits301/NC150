@@ -43,7 +43,7 @@ class Solution {
      * 1. Similar to LinkedList cycle detection, we can optimize by using Floyd Cycle detection.
      * 2. Hence, when `slow == fast`, this means cycle.
      * 3. Here, the linked list nodes are - n, n1=sumOfSquares(n), n2=sumOfSquares(n1) ...
-     * 4. We construct the list as we go and move slow and fast in tortoise and hare fashion.
+     * 4. We construct the list as we go and move slow and fast using Floyd's Tortoise and Hare algorithm.
      * 5. Code - always exit when `slow == fast`.
      * 6. But it can happen that both are equal to 1, indicating happy number.
      * Hence, before returning whether happy, we check if `fast == 1`.
@@ -74,3 +74,58 @@ class Solution {
 }
 
 // using BRENT CYCLE DETECTION
+// I WILL AVOID THIS FOR INTERVIEWS BECAUSE OF COMPLEXITY
+/*
+ * Intuition:
+ * Brent's Cycle Detection is an efficient algorithm for detecting cycles in sequences,
+ * similar to Floyd's Tortoise and Hare, but can be more memory and step efficient.
+ * It is well-suited for problems like Happy Number, where we repeatedly transform a number
+ * and want to detect if we enter a cycle (not happy) or reach 1 (happy).
+ *
+ * Approach:
+ * 1. Initialize two pointers: slow and fast. Slow starts at n, fast at sumOfSquares(n).
+ * 2. Use two variables: power (controls when slow moves forward) and length (cycle length counter).
+ * 3. Move fast forward one step at a time, incrementing length.
+ * 4. When length equals power, move slow to fast, double power, and reset length.
+ * 5. If slow meets fast, a cycle is detected.
+ * 6. If fast reaches 1, the number is happy.
+ *
+ * When to use:
+ * - Use Brent's algorithm when you want O(1) space and potentially fewer steps than Floyd's.
+ * - Useful for cycle detection in functional graphs or repeated transformations.
+ *
+ * Why it works:
+ * - By controlling the movement of slow and fast pointers with power and length,
+ *   Brent's method efficiently finds cycles without extra space.
+ * - If a cycle exists, slow and fast will eventually meet.
+ * - If the sequence reaches 1, it is a happy number.
+ */
+// T: O(log n)
+// S: O(1)
+class Solution {
+    public boolean isHappy(int n) {
+        int power = 1, length = 1;
+        int slow = n, fast = sumOfSquares(n);
+
+        while (slow != fast) {
+            if (power == length) {
+                slow = fast;
+                power <<= 1; // double the power
+                length = 0;
+            }
+            fast = sumOfSquares(fast);
+            length++;
+        }
+        return fast == 1;
+    }
+
+    private int sumOfSquares(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int digit = n % 10;
+            sum += digit * digit;
+            n /= 10;
+        }
+        return sum;
+    }
+}
