@@ -10,18 +10,18 @@ class Solution {
         int m = matrix.length;
         int n = matrix[0].length;
 
-        for(int i=0; i<m; i++){
-            int lo = 0, hi = n-1;
-            while(lo <= hi){
-                int mid = lo + (hi-lo)/2;
-                if(matrix[i][mid] == target){
+        for (int i = 0; i < m; i++) {
+            int lo = 0, hi = n - 1;
+            while (lo <= hi) {
+                int mid = lo + (hi - lo) / 2;
+                if (matrix[i][mid] == target) {
                     return true;
                 }
 
-                if(matrix[i][mid] < target){
-                    lo = mid+1;
+                if (matrix[i][mid] < target) {
+                    lo = mid + 1;
                 } else {
-                    hi = mid - 1; 
+                    hi = mid - 1;
                 }
             }
         }
@@ -30,6 +30,7 @@ class Solution {
 }
 
 class Solution {
+
     // refer STRIVER
     // OPTIMAL - O(log (m*n))
     /*
@@ -53,25 +54,24 @@ class Solution {
         int m = matrix.length;
         int n = matrix[0].length;
 
-        int lo = 0, hi = (m*n)-1;
+        int lo = 0, hi = (m * n) - 1;
 
-        while(lo <= hi){
+        while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
 
             int row = mid / n;
             int col = mid % n;
 
-            if(matrix[row][col] == target){
+            if (matrix[row][col] == target) {
                 return true; // mid
             }
 
-            if(matrix[row][col] < target){
+            if (matrix[row][col] < target) {
                 lo = mid + 1;
             } else {
                 hi = mid - 1;
             }
         }
-        
         return false;
     }
 

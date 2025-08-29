@@ -3,6 +3,10 @@ class TimeMap {
     // BRUTE - TLE
     // T: set - O(1), get - O(n) 
     // S: O(m)
+    /*
+     * Linear search for the values in the list of pairs.
+     * We need pairs (timestamp, value) for each key.
+     */
     Map<String, List<Pair>> map;
 
     public TimeMap() {

@@ -1,4 +1,48 @@
 class Solution {
+    /**
+     * BRUTE FORCE
+     * T: O(m*n); m = maximum possible eating speed, n = number of piles
+     * S: O(1)
+     * Approach:
+     * 1. We need to find the smallest `k` such that the total time to
+     * eat all bananas is no more than `h`. The time to eat a single pile of `p`
+     * bananas with speed `k` is calculated as `ceil(p / k)`.
+     *
+     * This method iterates through every possible speed, starting from `k = 1`.
+     * For each speed, it calculates the total time required to consume all piles.
+     * The first speed `k` that allows Koko to finish within the `h` hour limit
+     * is guaranteed to be the minimum possible speed, so it is returned immediately.
+     */
+    public int minEatingSpeed(int[] piles, int h) {
+        // Start checking for the eating speed k from 1, the smallest possible speed.
+        int k = 1;
+
+        while (true) {
+            // Use 'long' for totalHours to prevent potential overflow if piles are large.
+            long totalHours = 0;
+
+            // For the current speed k, calculate the hours needed to eat all piles.
+            for (int pile : piles) {
+                // Calculate hours for the current pile using ceiling division.
+                // The formula (pile + k - 1) / k is a common integer arithmetic
+                // trick to compute ceil(pile / k).
+                totalHours += (long)(pile + k - 1) / k;
+            }
+
+            // Check if the calculated hours are within the allowed time.
+            if (totalHours <= h) {
+                // Since we are checking k in increasing order (1, 2, 3, ...),
+                // the first k that satisfies the condition is the minimum possible speed.
+                return k;
+            }
+
+            // If the current speed k is too slow, increment it and try again.
+            k++;
+        }
+    }
+}
+
+class Solution {
     // refer STRIVER
     // T: O(nlog n); `n` for loop on arr and `log n` for binary search.
     // S: O(1)
