@@ -4,10 +4,10 @@ class Solution {
     // T: O(nlogn); sorting
     // S: O(1); excluding answer array
     /*
-     * 1. Sort the array based on euclidean distance.
-     * 2. we don't actually need sqrt. Because, if v1 < v2, then sqrt(v1) < sqrt(v2).
+     * 1. Sort the array based on Euclidean Distance.
+     * 2. we don't actually need square root (sqrt). Because, if `v1 < v2`, then `sqrt(v1) < sqrt(v2)`.
      * 3. So, we can directly sort the array based on the squares of distance from origin.
-     * 4. copy first k-elements to result and return.
+     * 4. Copy first k-elements to result and return.
      */
     public int[][] kClosest(int[][] points, int k) {
 

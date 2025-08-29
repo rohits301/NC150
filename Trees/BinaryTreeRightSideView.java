@@ -20,15 +20,15 @@ class Solution {
     // S: O(h)
     /*
      * In the right view, the rightmost value at every level is what we see.
-     * So, with dfs, this means, we traverse - `Root Right Left`
-     * Alright, can traverse in the order `root,right,left`
+     * So, in dfs, this means, we traverse - `Root Right Left`
+     * Alright, we can traverse in the order `root,right,left`
      * but when to add a node to data-structure?
-     * Whenever, we visit a level for the first time, that is
+     * Whenever, we visit a level for the first time, that is,
      * the moment when we have visited the right side for the first time, 
      * hence, this is also the moment we add it to our data structure.
-     * The check to ensure this is -> `level == datastructure.size()`
-     * when we are visiting a level again, then, `level > datastructure.size()`.
-     * For LEFT SIDE VIEW, interchange the dfs calls, that's it.
+     * The check to ensure this is -> `level == dataStructure.size()`
+     * when we are visiting a level again, then, `level > dataStructure.size()`, so we only add one node at each level.
+     * For LEFT SIDE VIEW, interchange the dfs calls. That's it.
      */
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> res = new ArrayList<>();

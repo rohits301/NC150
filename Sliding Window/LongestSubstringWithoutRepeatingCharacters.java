@@ -79,9 +79,10 @@ class Solution {
      * 3. When we encounter a repeating character, we jump the `left` pointer to `(lastSeenIndex + 1)`, skipping over unnecessary elements.
      * 4. However, before updating `left`, we must ensure it never moves backward.
      * 5. To prevent this, we use:
-          `left = max(left, map.get(rightChar) + 1);`
-       This ensures `left` only moves forward, maintaining a valid substring.
-     * 6. Key Idea: Instead of shrinking the window one character at a time when a duplicate is found we jump the left pointer directly to the next position after the last occurrence of the duplicate character.
+          `left = max(left, map.get(rightChar) + 1)`
+       If the character was seen and is inside the current window,
+       we move the left pointer to the right of its last position.
+     * 6. Key Idea: Instead of shrinking the window one character at a time when a duplicate is found, we jump the left pointer directly to the next position after the last occurrence of the duplicate character.
      */
     public int lengthOfLongestSubstring(String s) {
         int left = 0, right = 0;

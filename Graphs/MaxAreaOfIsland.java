@@ -52,7 +52,7 @@ class Solution {
     /**
      * Similar to DFS, for each island, we invoke a BFS
      * visited is marked right after we add in the queue
-     * also, we increase `res` by 1 indicating we found a 1.
+     * also, we increase `res` by 1 indicating we found a one.
      */
     public static final int[][] directions = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
 

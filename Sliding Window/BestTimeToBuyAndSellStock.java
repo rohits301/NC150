@@ -35,8 +35,8 @@ class Solution {
                 int profit = prices[right] - prices[left];
                 max = Math.max(max, profit);
             } else {
-                left = right; // jump left to right because right is at a lower price
-                // we can only buy once, so we need to reset left to right
+                left = right; // jump `left` to `right` because `right` is at a lower price
+                // we can only buy once, so we need to reset `left` to `right`
             }
             right++;
         }
@@ -60,7 +60,7 @@ class Solution {
      */
     public int maxProfit(int[] prices) {
         int maxProfit = 0;
-        int min = prices[0];
+        int min = prices[0]; // we have to buy on the 0th day so `min=prices[0]` initially
 
         for (int i = 1; i < prices.length; i++) {
             int profit = prices[i] - min;
