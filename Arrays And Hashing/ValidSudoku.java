@@ -3,6 +3,13 @@ class Solution {
     // BRUTE/BETTER
     // T: O(n^2) - O(81); each cell is visited thrice.
     // S: O(n) - O(9) for each set we have max 9 elements in it, at any given time only one set exists.
+    /*
+     * Approach: 
+     * 1. Check each row, column, and 3x3 square for duplicates.
+     * 2. Use a set to track seen numbers.
+     * 3. If a duplicate is found, return false.
+     * 4. If no duplicates are found, return true.
+     */
     public boolean isValidSudoku(char[][] board) {
         int n = board.length; // n = 9
         Set<Character> set;
@@ -41,23 +48,24 @@ class Solution {
 
         // square check (3x3)
         /*
-         * There are 9 (3x3) grids in the 9x9 grid
-         * According to sudoku, all should be unique
-         * so, we derive a formula such that
-         * for every square, we can get the -
-         * indices of the left-most corner, that is, the starting corner of the square grid.
-         * With the starting indices, we just have to loop through a 3x3 grid to check for duplicates.
-         * observation -
+         * 1. There are 9 (3x3) grids in the board
+         * 2. For a valid Sudoku, all must be unique.
+         * 3. So, we derive a formula such that for every square,
+         * we can get the indices of the top-left corner, that is, the starting corner of the square grid.
+         * 4. With the starting indices, we just have to loop through a 3x3 grid to check for duplicates.
+         * 5. Observation -
+         * Below are the indices of squares in the 9*9 BOARD.
          * 0 1 2
          * 3 4 5
          * 6 7 8
-         * for first row squares - 0,1,2
-         * starting row is 0, starting columns are 0,3,6
-         * for second row squares - 3,4,5
-         * starting row is 3, starting columns are 0,3,6
-         * similarly, for third row squares - 6,7,8
-         * starting row is 6, starting columns are 0,3,6
-         * hence, the formula -
+         * 6. We will derive a formula to get the starting indices (top-left).
+         * a) For first row squares - 0,1,2
+         * starting row number is 0, starting column numbers are 0,3,6
+         * b) For second row squares - 3,4,5
+         * starting row number is 3, starting column numbers are 0,3,6
+         * c) Similarly, for third row squares - 6,7,8
+         * starting row number is 6, starting column numbers are 0,3,6
+         * d) Hence, the formula -
          * row = (square / 3) * 3
          * col = (square % 3) * 3
          */
@@ -97,24 +105,26 @@ class Solution {
     // S: O(n) - O(9*3)
     /*
      * Approach - 
-     * Previously, we were checking every row, col and square for duplicate.
-     * The duplicate search can be done with bits because
+     * 1. Previously, we were checking every row, col and square for duplicate.
+     * 2. The duplicate search can be done with bits because
      * `int` has 32 bits and we only need 9.
-     * To represent numbers, we can create a mask that left shifts 1
-     * in-order to turn on that particular bit.
-     * For e.g. board[i][j] = '5', and i=1, j=5
+     * 3. To represent numbers, we can create a mask that left shifts 1
+     * inorder to turn on that particular bit.
+     * 4. For e.g. board[i][j] = '5', and i = 1, j = 5
      * val = '5'-'1' = 4
-     * turn the 4th bit on => 00010000
-     * mark the location in row -> 
+     * 5. Turn the 4th bit on of 0 => 00010000
+     * 6. Mark the location in row and in column -> 
      * rows[1] = 00010000 and cols[5] = 00010000
-     * this means for 1st row, 5th column, we have 4th bit on.
-     * since all loops run 9*9 times, so we run a single loop and do every marking there only.
-     * To find square index - 
-     * observe the pattern for indexes of row, col in 2D matrix
-     * i/3 and j/3 both result in 0-2.
-     * In the squares, to get the row index we need to multiply by 3. 
-     * Column is the offset from that location.
-     * hence, squareIdx = (i/3)*3 + j/3;
+     * 7. This means for 1st row and 5th column, we have 4th bit on.
+     * 8. Since all loops run 9*9 times, so we run a single loop and do every marking there only.
+     * 9. To find square index - 
+     * a) Observe the pattern for indices of row, col in 2D matrix
+     * b) i/3 and j/3 both result in [0,1,2].
+     * c) In the squares, to get the row index we need to multiply by 3. 
+     * d) Column is the offset from that location.
+     * e) hence, `squareIdx = (i/3)*3 + j/3`
+     * Question: How does this do the marking for the square?
+     * Answer: It calculates the square index using the formula derived from the row and column indices. The square index is then used to mark the corresponding bit in the `squares` array. This ensures that we are keeping track of all numbers seen in each 3x3 sub-box.
      */
     public boolean isValidSudoku(char[][] board) {
         int[] rows = new int[9];
