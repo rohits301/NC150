@@ -3,12 +3,13 @@ class Solution {
     // BRUTE FORCE
     // T: O(n^3)
     // S: O(2 * no. of unique triplets) - space of set + answer list
-    /*
-     * 1. Sort the list as we want unique triplets. So we add sorted list to Set.
+    /**
+     * Approach: Three nested loops
+     * 1.  To handle duplicate triplets (e.g., [-1, 0, 1] and [0, 1, -1]), we sort each valid triplet before adding it to a HashSet.
      * 2. This ensures, lists which have same sorted order are counted only once.
      * 3. In the end, create List from Set.
-     * 4. We required extra space of Set to sort the triplet. 
-     * 5. Note: Sorting will change order, but that won't affect the answer.
+     * 4. We require the extra space of a HashSet to ensure we only store unique triplets.
+     * Note: Sorting will change order, but that won't affect the answer.
      */
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
@@ -39,9 +40,10 @@ class Solution {
 class Solution {
     // BETTER
     // T: O(n^2) 
-    // S: O(n + no. of unique ele * 2); n=for hashset, no. of unique ele -> first is for set, second is for the ans list
+    // S: O(n + no. of unique triplets); `n` is for hashset, no. of unique triplets -> first is for set, second is for the answer list
     // using set, an external Data structure to store the answer
-    /* 
+    /**
+     * Approach:
      * 1. Instead of three loops, this can be done in two.
      * 2. This is possible if we use hashset to search the third element in array. So searching reduces from O(n) to O(1).
      * 3. So, `third = -(nums[i] + nums[j])`
@@ -73,9 +75,10 @@ class Solution {
 
 class Solution {
     // OPTIMAL
-    // T: O(n^2 + nlogn)
+    // T: O(n^2); n^2 - for loops + nlogn - for sorting
     // S: O(no. of triplets) 
-    /*
+    /**
+     * Approach:
      * 1. To get rid of sorting the triplets, we can sort the entire array in the beginning itself.
      * 2. Then, we can use two-pointer such that, `i < j < k`.
      * 3. Fix `i`, move `j` and `k`.

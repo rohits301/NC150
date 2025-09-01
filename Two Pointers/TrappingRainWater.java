@@ -3,6 +3,14 @@ class Solution {
     // refer STRIVER video and NEETCODE code
     // T: O(n^2) - For each index, we scan both left and right to find max heights.
     // S: O(1)
+    /**
+     * Approach:
+     * 1. For each index, find the maximum height to the left and right.
+     * 2. The water trapped at that index is determined by the shorter of the two maximum heights.
+     * 
+     * Intuition:
+     * Water can only be trapped if there are taller bars on both sides.
+     */
     public int trap(int[] height) {
         int n = height.length; 
         int ans = 0; 
@@ -36,30 +44,37 @@ class Solution {
 class Solution {
     // BETTER
     // refer STRIVER video and NEETCODE code
-    // pre-compute prefix array (leftMax) and suffix array (rightMax)
-    // this saves time by using O(2n) space
     // T: O(n) - Three passes: one for leftMax, one for rightMax, and one for computing trapped water.
     // S: O(n) - Two auxiliary arrays (leftMax, rightMax) of size n each.
+    /*
+     * Approach:
+     * 1. Create two arrays leftMax (prefix array) and rightMax (suffix array).
+     * 2. leftMax[i] contains the maximum height to the left of index i (including itself).
+     * 3. rightMax[i] contains the maximum height to the right of index i (including itself).
+     * 4. The water trapped at index i is min(leftMax[i], rightMax[i]) - height[i].
+     * 
+     * Intuition:
+     * 1. To trap water, we need to know the height of the tallest walls on both sides of each bar.
+     * 2. The water that can be trapped on top of a bar is determined by the shorter of the two walls.
+     * 3. By precomputing the maximum heights to the left and right of each bar, we can easily calculate the trapped water.
+     */
     public int trap(int[] height) {
         int n = height.length; 
         int ans = 0; 
         int[] leftMax = new int[n];  
         int[] rightMax = new int[n]; 
 
-        // Compute the prefix max array (leftMax)
         leftMax[0] = height[0];
         for (int i = 1; i < n; i++) {
             leftMax[i] = Math.max(leftMax[i - 1], height[i]);
         }
 
-        // Compute the suffix max array (rightMax)
         rightMax[n - 1] = height[n - 1];
         for (int i = n - 2; i >= 0; i--) {
             rightMax[i] = Math.max(rightMax[i + 1], height[i]);
         }
 
         for (int i = 0; i < n; i++) {
-            // Water trapped at index i = min(leftMax[i], rightMax[i]) - height[i]
             ans += Math.min(leftMax[i], rightMax[i]) - height[i];
         }
 
@@ -71,25 +86,22 @@ class Solution {
     // OPTIMAL
     // TWO-POINTER
     // refer STRIVER video
-    // INTUITION
+    // T: O(n)
+    // S: O(1)
     /** 
-     * For storing water, I need left boundary and right boundary
-     * If it is guaranteed that `height[left] <= height[right]` 
+     * Intuition and Approach:
+     * 1. For storing water, I need a left boundary and a right boundary.
+     * 2. If it is guaranteed that `height[left] <= height[right]` 
      * then, I have a right boundary in place .
-     * so, check whether it is possible to trap water at left.
-     * this depends whether the left wall or `leftMax` is larger than the current height
-     * hence, if `height[left] >= leftMax`, cannot trap water, update the max 
-     * because this is the max seen so far.
-     * Else, the `height[left]` is already <= `height[right]`
-     * and it is also smaller than `leftMax`, hence, the right and left boundary are guaranteed
-     * also, the `leftMax` found until now are smaller than `height[right]` encountered until now, hence
-     * we are sure we are taking the min of `leftMax` and `rightMax`
-     * hence, water can be trapped in this case.
-
-     * The algorithm cleverly avoids explicitly calculating min(leftMax, rightMax) at each step by moving the pointer of the shorter side.
+     * 3. So, check whether it is possible to trap water on left.
+     * 4. This depends whether the left wall or `leftMax` is larger than the current height.
+     * 5. Hence, if `height[left] >= leftMax`, cannot trap water, so, update the `leftMax` 
+     * because this is the max seen so far. Else, the `height[left]` is already <= `height[right]`
+     * and it is also smaller than `leftMax`, hence, the right and left boundaries are guaranteed.
+     * 6. The condition `height[left] <= height[right]` is the key. It guarantees that a boundary on the right is at least as tall as our `leftMax`. This confirms `leftMax` is the true bottleneck, allowing us to calculate the trapped water at the left pointer immediately.
+     * 7. The logic is perfectly symmetrical when we process the right pointer.
+     * 8. The algorithm cleverly avoids explicitly calculating min(leftMax, rightMax) at each step by moving the pointer of the shorter side.
      */
-    // T: O(n);
-    // S: O(1);
     public int trap(int[] height) {
         int n = height.length; 
 
