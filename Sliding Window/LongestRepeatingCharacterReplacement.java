@@ -4,10 +4,17 @@ class Solution {
     // T: O(n^2)
     // S: O(n) - will be O(26) as map would have max 26 unique keys
     /*
+     * Approach:
      * 1. Use map to count frequency of the characters.
      * 2. For the current substring under consideration (`i to j`), if `windowLength - maxFrequency > k`
      * then, the window is invalid because we cannot replace more than `k` characters, hence break. We break because, further strings will have the above equation as true only for these `i` and `j`, hence not considering further substrings saves time.
      * 3. Keep updating the `maxLength`.
+     * 
+     * Intuition:
+     * 1. To maximize the length of the substring, we need to minimize the number of replacements.
+     * 2. The best strategy is to focus on the most frequent character in the current window.
+     * 3. If we can make enough replacements (i.e., `windowLength - maxFrequency <= k`), we can extend the window.
+     * 4. If not, we need to shrink the window from the left.
      */
     public int characterReplacement(String s, int k) {
         int maxLength = 0;
@@ -32,12 +39,13 @@ class Solution {
 }
 
 class Solution {
-    // BETTER
+    // BETTER Space Complexity
     // T: O(n^2)
     // S: O(26) = O(1)
     /*
-     * Using frequency array[26] instead of map.
-     * Rest all same.
+     * Approach:
+     * 1. Using frequency array[26] instead of map.
+     * 2. Rest all same.
      */
     public int characterReplacement(String s, int k) {
         int maxLength = 0;
@@ -67,12 +75,16 @@ class Solution {
     // T: O(n)
     // S: O(26)
     /*
-     * 1. Instead of changing the window itself like in previous approach where we break from loop in case of invalid window, we can slide the window instead. 
+     * Approach: 
+     * 1. Instead of changing the window itself like in previous approach where we break from loop in case of invalid window, we can instead slide the window.
      * 2. Slide -> release the `left` character until the window is valid again.
-     * 3. Condition for valid window -> `windowSize - maxFrequency <= k`. `windowSize = right - left + 1`
+     * 3. Condition for valid window -> `windowSize - maxFrequency <= k`. Where `windowSize = right - left + 1`.
      * 4. Basically, count of non-repeating characters <= k for valid window, only then we can do `k` replacements.
      * 5. Acquire characters from `right` and check if window is valid.
-     * 6. Keep updating the `maxLength` in every iteration.
+     * 6. If it valid, we can update the `maxLength`.
+     * 7. If it not valid, we need to slide the window from the left until it becomes valid.
+     * 8. Then, update the `maxLength`.
+     * NOTE: freq[26] only works when we have only English letters (A-Z) or (a-z).
      */
     public int characterReplacement(String s, int k) {
         int maxLength = 0;

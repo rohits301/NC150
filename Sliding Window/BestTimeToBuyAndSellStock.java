@@ -3,6 +3,12 @@ class Solution {
     // BRUTE FORCE
     // T: O(n^2)
     // S: O(1)
+    /*
+     * Approach:
+     * 1. For every price, we will try to buy and sell on every other price after that.
+     * 2. Keep track of maximum profit so far.
+     * 3. Return maximum profit so far.
+     */
     public int maxProfit(int[] prices) {
         int n = prices.length;
         int maxSoFar = 0;
@@ -25,6 +31,18 @@ class Solution {
     // Sliding window type solution
     // T: O(n)
     // S: O(1)
+    /*
+     * Approach:
+     * 1. We can buy and sell only once.
+     * 2. Use two pointers, left and right.
+     * 3. left pointer is the buying price, right pointer is the selling price.
+     * 4. We are always buying on the first day, so left=0 and right=1 initially.
+     * 5. If prices[left] < prices[right], we can make a profit, so calculate the profit and update max profit.
+     * 6. If prices[left] >= prices[right], we cannot make a profit, so move the left pointer to right.
+     * 7. Move the right pointer to the next position.
+     * 8. The key here is jumping the left pointer to right when right is at a lower price than left. This is because we can only buy once, so we need to reset left to right.
+     * 9. Return the maximum profit.
+     */
     public int maxProfit(int[] prices) {
         int left = 0, right = 1, n = prices.length;
         int max = 0;
