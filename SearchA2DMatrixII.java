@@ -23,6 +23,11 @@ class Solution {
      * If the current element is greater than the target, all elements in that column below are also greater than the target (because the column is sorted),
      * so we move left to the previous column.
      * This way, we systematically narrow down the search space.
+     * 
+     * Why Bottom-left or Top-right?
+     * Because these are strategic locations. 
+     * Top-right: move left and value decreases, move down and value increases.
+     * Bottom-left: move right and value increases, move up and value decreases.
      */
     public boolean searchMatrix(int[][] matrix, int target) {
         // staircase search
