@@ -81,55 +81,6 @@ class Solution {
 }
 
 class Solution {
-    // Same as above
-    // refer NEETCODE
-    /**
-     * Returns an array of the maximums in each sliding window of size k.
-     *
-     * Approach:
-     * 1. Use a max-heap (PriorityQueue) that orders pairs (num, idx) by num descending.
-     * 2. As we iterate i from 0…n-1:
-     *    a) Push (nums[i], i) onto the heap.
-     *    b) Once i >= k-1, the window [i-k+1 .. i] is complete:
-     *       - Pop() from the heap while the peek's idx < i-k+1 (i.e. it’s slid out).
-     *       - The heap’s peek().num is the window maximum.
-     *       - Store it in result[i-k+1].
-     *
-     * Time:  O(n log n) in the worst case (each element is pushed once, popped at most once).  
-     * Space: O(n) for the heap.
-     */
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        if (nums == null || k <= 0) {
-            return new int[0];
-        }
-        int n = nums.length;
-        int[] result = new int[n - k + 1];
-
-        // Max-heap of (value, index), ordered by value descending
-        PriorityQueue<int[]> heap = new PriorityQueue<>(
-            (a, b) -> Integer.compare(b[0], a[0])
-        );
-
-        for (int i = 0; i < n; i++) {
-            // Add current element
-            heap.offer(new int[]{ nums[i], i });
-
-            // Once we've filled the first window, start recording maxima
-            if (i >= k - 1) {
-                // Remove stale elements outside the window [i-k+1 .. i] if the max of the window is out of range
-                while (heap.peek()[1] < i - k + 1) {
-                    heap.poll();
-                }
-                // The top is the max in the current window
-                result[i - k + 1] = heap.peek()[0];
-            }
-        }
-
-        return result;
-    }
-}
-
-class Solution {
     // refer STRIVER - old video
     // OPTIMAL - Monotonic Deque Approach
     // T: O(n); n + n = 2n, maximum `n` offer and `n` poll invocations are made, so deque is Amortized O(n) for n operations.

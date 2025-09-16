@@ -1,5 +1,5 @@
 class Solution {
-    // BRUTE FORCE
+    // BRUTE FORCE - TLE
     // T: O(m^2 * n) - where m is the length of string `s` and n is the length of string `t`
     // S: O(m + n) - as we are using two maps to store the frequency of characters in `t` and `s`
     /**
