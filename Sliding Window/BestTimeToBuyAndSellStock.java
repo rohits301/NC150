@@ -37,11 +37,12 @@ class Solution {
      * 2. Use two pointers, left and right.
      * 3. left pointer is the buying price, right pointer is the selling price.
      * 4. We are always buying on the first day, so left=0 and right=1 initially.
-     * 5. If prices[left] < prices[right], we can make a profit, so calculate the profit and update max profit.
-     * 6. If prices[left] >= prices[right], we cannot make a profit, so move the left pointer to right.
-     * 7. Move the right pointer to the next position.
-     * 8. The key here is jumping the left pointer to right when right is at a lower price than left. This is because we can only buy once, so we need to reset left to right.
-     * 9. Return the maximum profit.
+     * 5. Calculate profit = prices[right] - prices[left].
+     * 6. If profit > 0, we can make a profit, so update max profit.
+     * 7. If profit <= 0, we cannot make a profit, so move the left pointer to right.
+     * 8. Move the right pointer to the next position.
+     * 9. The key here is jumping the left pointer to right when right is at a lower price than left. This is because we can only buy once, so we need to reset left to right.
+     * 10. Return the maximum profit.
      */
     public int maxProfit(int[] prices) {
         int left = 0, right = 1, n = prices.length;
@@ -49,8 +50,8 @@ class Solution {
 
         // left = buying price, right = selling price
         while (right < n) {
-            if (prices[left] < prices[right]) {
-                int profit = prices[right] - prices[left];
+            int profit = prices[right] - prices[left];
+            if (profit > 0) {
                 max = Math.max(max, profit);
             } else {
                 left = right; // jump `left` to `right` because `right` is at a lower price
@@ -84,9 +85,8 @@ class Solution {
             int profit = prices[i] - min;
             if (profit >= 0) {
                 maxProfit = Math.max(maxProfit, profit);
-            }
-            if (prices[i] < min) {
-                min = prices[i];
+            } else {
+                min = prices[i]; // update min if current price is less than min
             }
         }
         return maxProfit;

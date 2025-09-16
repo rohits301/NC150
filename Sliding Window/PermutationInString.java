@@ -8,9 +8,9 @@ class Solution {
     /*
      * 1. Permutation of a string is formed by rearranging the characters. There are `n!` permutations for string of length = `n`.
      * 2. All permutations have same length and are anagrams of the string.
-     * 3. Applying this, we can find if `s1` is an anagram with substrings of `s2`.
-     * 4. Two strings are anagrams if there sorted strings are equal.
-     * 5. Slight optimization: Instead of generating all substrings of `s2`, generate only `n` length substrings
+     * 3. Applying this knowledge, we can find if `s1` is an anagram of any substring of `s2`.
+     * 4. Two strings are anagrams if their sorted strings are equal.
+     * 5. Slight optimization: Instead of generating all substrings of `s2`, generate only `n` length substrings.
      * This can be done by looping over the index from `0 to m-n` and picking `n` length substrings.
      */
     public boolean checkInclusion(String s1, String s2) {

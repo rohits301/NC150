@@ -43,7 +43,7 @@ class Solution {
      * a. Add the new element `[nums[i], i]` to the heap. 
      * b. Look at the top element of the heap, `heap.peek()`. Is its index still valid for the current window `[i-k+1, i]`? 
      * c. If not, it's a stale element. Poll it from the heap and repeat step (b) until the element at the top is within the current window's bounds. 
-     * d. Once the top element is valid, it's the maximum for the current window. Add it to our results.
+     * d. If the top element is valid, it's the maximum for the current window. Add it to our results.
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
@@ -91,8 +91,8 @@ class Solution {
      * 2. As we iterate i from 0…n-1:
      *    a) Push (nums[i], i) onto the heap.
      *    b) Once i >= k-1, the window [i-k+1 .. i] is complete:
-     *       - Pop() from the heap while the top’s idx < i-k+1 (i.e. it’s slid out).
-     *       - The heap’s top().num is the window maximum.
+     *       - Pop() from the heap while the peek's idx < i-k+1 (i.e. it’s slid out).
+     *       - The heap’s peek().num is the window maximum.
      *       - Store it in result[i-k+1].
      *
      * Time:  O(n log n) in the worst case (each element is pushed once, popped at most once).  
@@ -111,10 +111,10 @@ class Solution {
         );
 
         for (int i = 0; i < n; i++) {
-            // 1) Add current element
+            // Add current element
             heap.offer(new int[]{ nums[i], i });
 
-            // 2) Once we've filled the first window, start recording maxima
+            // Once we've filled the first window, start recording maxima
             if (i >= k - 1) {
                 // Remove stale elements outside the window [i-k+1 .. i] if the max of the window is out of range
                 while (heap.peek()[1] < i - k + 1) {
@@ -131,24 +131,34 @@ class Solution {
 
 class Solution {
     // refer STRIVER - old video
-    // OPTIMAL
-    // Array Deque approach
+    // OPTIMAL - Monotonic Deque Approach
     // T: O(n); n + n = 2n, maximum `n` offer and `n` poll invocations are made, so deque is Amortized O(n) for n operations.
     // S: O(k); Queue size at any time is `k`
+
     /**
      * Approach:
-     * 1. Use ArrayDeque - it is a Double Ended Queue implemented as a resizable array internally.
-     * 2. Intuition - we need to keep track of max for `k` elements. This has to be done as we discover the elements. 
-     * So, it's NGE(next greater element) on right. 
-     * As soon as we discover a `nums[i]` that is smaller or equal to last element in queue (`q.peekLast()`), we push it to queue.
-     * Another way to think about this - we remove all elements from the end of the queue that are smaller than nums[i]. 
-     * This way we maintain strictly decreasing order.
-     * Hence, the greatest is always in the beginning of the queue.
-     * 3. We need to clean-up the queue as well to make sure, stale window entries are removed. 
-     * So remove from front, when the front index in queue is `i-k`. 
-     * Because, for every index `i`, `i-k` is the first element outside of window of size `k` ending at `i`.
-     * 4. We store indices in queue so that the clean-up for non-window elements is efficient.
-     * 5. The size of the answer array = the number of windows of size `k` possible in the array => `n-k+1`.
+     * 1. Use a Deque (Double Ended Queue) to store indices of elements from the input array.
+     * 2. The deque will be maintained such that the indices in it correspond to values in `nums`
+     * that are in strictly decreasing order. This ensures the index of the maximum element in the
+     * current window is always at the front of the deque (q.peekFirst()).
+     * 3. Iterate through the array with index `i`:
+     * a. **Clean the deque:** Before adding a new element, remove indices from the front that
+     * are no longer in the current window. An index `j` is out of the window `[i-k+1, i]`
+     * if `j <= i-k`.
+     * b. **Maintain decreasing order:** Before adding `i`, remove all indices from the back of
+     * the deque that correspond to values smaller than `nums[i]`. 
+     * These elements can never be the maximum in any future window that also includes `nums[i]`.
+     * c. **Add current index:** Add the current index `i` to the back of the deque.
+     * 4. Once the window is full (i.e., `i >= k-1`), the maximum for that window is `nums[q.peekFirst()]`.
+     * Add this to the result array.
+     *
+     * 
+     * Intuition:
+     * The intuition is to maintain a deque of indices where the corresponding values in nums are in strictly decreasing order. 
+     * This ensures that the index at the front of the deque (q.peekFirst()) always corresponds to the largest element in the current window. 
+     * When we consider a new element nums[i], we remove all indices from the end of the deque that correspond to values smaller than nums[i]. 
+     * These smaller elements can never be the maximum in any future window that includes nums[i], so they are discarded. 
+     * This way, the deque efficiently keeps track of potential maximums for the current and future windows.
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
@@ -164,7 +174,7 @@ class Solution {
                 q.pollLast();
             }
 
-            q.offer(i); // this is an addFirst operation
+            q.offer(i); // this is offerLast() operation by default
 
             if (i >= k - 1) {
                 // k elements are discovered
