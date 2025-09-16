@@ -5,6 +5,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+ * Approach:
+ * 
+ * This implementation provides a dynamic N-ary tree supporting efficient addition and removal
+ * of nodes, as well as O(1) queries for the number of nodes at any level.
+ * 
+ * - Each node maintains its value, parent, children, and its level in the tree.
+ * - The tree tracks the count of nodes at each level via an ArrayList<Integer> (levelCounts).
+ *   This allows O(1) retrieval of node counts at any level.
+ * - When nodes are added, their level is set to parent's level + 1, and levelCounts is updated.
+ * - When nodes (and their subtrees) are removed, a BFS is used to determine how many nodes
+ *   exist at each level in the subtree, and levelCounts is decremented accordingly.
+ * - Root node cannot be removed. Attempting to remove it throws an exception.
+ * 
+ * Example usage demonstrates adding and removing nodes while querying node counts at given levels.
+ */
+
 public class Main {
 
     // ------------------- Node Class -------------------
