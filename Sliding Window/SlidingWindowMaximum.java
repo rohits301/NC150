@@ -27,23 +27,38 @@ class Solution {
 class Solution {
     // refer GEMINI
     // BETTER - Sub-optimal Heap approach
-    // T: O(n log k); Each of the n elements is offered and polled at most once.
-    // S: O(k); The heap size is at most k.
+    // T: O(n log n); Each of the n elements is offered and polled at most once.
+    // S: O(n); worst case, all elements are in the heap.
     /**
-     * Intuition:
-     * The core problem is that a standard heap does not support efficient removal of an arbitrary element. When our window slides forward, we add the new element (nums[i]) but also need to discard the element that just fell off the back (nums[i-k]). Searching for and removing this specific element from a heap takes O(k) time, which brings us back to the O(n*k) brute-force complexity.
+     * 1. The Challenge with a Naive Heap:
+     * A standard heap (PriorityQueue) does not support efficient removal of an arbitrary element.
+     * When our window slides, we need to discard the element that falls off the back (e.g., `nums[i-k]`).
+     * Finding and removing this specific element from a heap is an `O(k)` operation, 
+     * which would degrade the total time complexity to `O(n*k)`.
      *
-     * The Solution: "Lazy Removal"
-     * Instead of actively removing the element that falls out of the window, we use a "lazy" approach. We leave the out-of-window elements in the heap and only deal with them when they surface at the very top.
-     * 
-     * 1. Create a Max-Heap that stores pairs of [value, index]. We need the index to know if an element is "stale" (i.e., no longer in the current window).
-     * 2. Add the first k elements to the heap.
-     * 3. The maximum for the first window is at the top of the heap. Add it to our results.
-     * 4. Now, slide the window from `i = k` to the end: 
-     * a. Add the new element `[nums[i], i]` to the heap. 
-     * b. Look at the top element of the heap, `heap.peek()`. Is its index still valid for the current window `[i-k+1, i]`? 
-     * c. If not, it's a stale element. Poll it from the heap and repeat step (b) until the element at the top is within the current window's bounds. 
-     * d. If the top element is valid, it's the maximum for the current window. Add it to our results.
+     * 2. The Solution - "Lazy Removal" Intuition:
+     * Instead of immediately paying the `O(k)` cost to remove an element, we leave it in the heap.
+     * An old, out-of-window ("stale") element only matters if it's the maximum. 
+     * If a newer, larger element is in the window, the old one is irrelevant, even if it's still in the heap.
+     * We only clean up these stale elements when they are at the very top (`heap.peek()`), 
+     * allowing us to use the efficient `poll()` operation.
+     *
+     * 3. Data Structure:
+     * Use a Max-Heap that stores pairs of `[value, index]`. 
+     * The index is crucial for knowing if a top element is stale (no longer in the current window).
+     *
+     * 4. Algorithm Steps:
+     * a. Initialize the heap with the first `k` elements.
+     * b. The maximum for the first window is at the top of the heap. Add it to the results.
+     * c. Slide the window from `i = k` to the end. For each new element:
+     * i. Add the new element `[nums[i], i]` to the heap.
+     * ii. Check the heap's top element. If its index is outside the current window bounds (`index <= i - k`), it's stale.
+     * iii. Keep polling stale elements from the top until the `peek()` element is valid (within the window).
+     * iv. The valid top element is the maximum for the current window. Add it to the results.
+     *
+     * 5. Performance Caveat:
+     * This "lazy" approach can cause the heap size to grow up to `n` in worst-case scenarios (like a sorted array), 
+     * resulting in an `O(n log n)` time complexity.
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
@@ -66,7 +81,7 @@ class Solution {
             // Add the new element to the heap
             heap.offer(new int[]{nums[i], i});
             
-            // "Lazy Removal": Remove all stale elements from the top of the heap.
+            // "Lazy Removal": Remove stale elements if they surface on the top of the heap.
             // A stale element is one whose index is outside the current window [i - k + 1, i].
             while (heap.peek()[1] <= i - k) {
                 heap.poll();
@@ -112,6 +127,9 @@ class Solution {
      * This way, the deque efficiently keeps track of potential maximums for the current and future windows.
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
+        if(nums == null || nums.length == 0 || nums.length < k){
+            return new int[0];
+        }
         int n = nums.length;
         int[] ans = new int[n - k + 1];
 
@@ -125,7 +143,7 @@ class Solution {
                 q.pollLast();
             }
 
-            q.offer(i); // this is offerLast() operation by default
+            q.offerLast(i); // default offer is offerLast()
 
             if (i >= k - 1) {
                 // k elements are discovered

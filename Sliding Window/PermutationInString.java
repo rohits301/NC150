@@ -98,21 +98,22 @@ class Solution {
     // T: O(m); n + (m-n)*26
     // S: O(1); 26*2
     /*
-     * 1. SLIDING WINDOW - all substring problems that require some sort of matching, think Sliding Window.
-     * 2. Make two frequency arrays - one for each `s1` and `s2`.
-     * 3. Consider `s1` as pattern and `s2` as text.
-     * 4. problem: find anagram of pattern in text.
-     * 5. Iterate over length `n` and populate both frequency arrays
-     * `s1Arr` = count of frequencies of characters in s1
-     * `s2Arr` = count of frequencies of first `n` characters (first window)
-     * 6. Iterate over the remaining windows in `s2`, `m-n` windows.
-     * Each window is of length `n`.
-     * 7. Acquire the character at `start + n` 
-     * and release the character at `start`
-     * 8. Compare both arrays whether they match.
-     * NOTE: The last return call is to check if the last window is valid.
+     * 1. ALGORITHM: Use the Sliding Window technique, which is ideal for "substring" or "subarray" problems.
+     * 2. DATA STRUCTURE: Use two frequency maps (arrays of size 26) to store character counts.
+     * 3. MODEL: Think of `s1` as the "pattern" and `s2` as the "text" we're searching within.
+     * 4. GOAL: Find if any permutation (anagram) of the pattern exists as a substring in the text.
+     * 5. INITIALIZATION:
+     * - Populate `s1Arr` with character frequencies from the pattern `s1`.
+     * - Populate `s2Arr` with frequencies from the initial window (the first `n` characters) of `s2`.
+     * 6. FIRST CHECK: Immediately compare the frequency maps. If they match, the first window is a  valid permutation, and we can return true.
+     * 7. SLIDING:
+     * - Iterate from the end of the first window (`i = n`) to the end of the text `s2`.
+     * - In each step, slide the window one position to the right:
+     * a. Add the new character entering the window (`s2.charAt(i)`).
+     * b. Remove the old character leaving the window (`s2.charAt(i - n)`).
+     * 8. CHECK WITHIN LOOP: After each slide, compare the maps. If they are equal at any point, a permutation has been found.
+     * - NOTE: Because the check happens *after* the window slides, the loop correctly evaluates every window, including the very last one. No final check after the loop is required.
      */
-
     public boolean checkInclusion(String s1, String s2) {
         if (s1.length() > s2.length()) {
             return false;
@@ -122,21 +123,27 @@ class Solution {
 
         int[] s1Arr = new int[26];
         int[] s2Arr = new int[26];
+        // first window
         for (int i = 0; i < n; i++) {
             s1Arr[s1.charAt(i) - 'a']++;
             s2Arr[s2.charAt(i) - 'a']++;
         }
 
-        // In all the substrings of length `n`, we check if any substring is anagram with `s1`
-        for (int start = 0; start < m - n; start++) {
-            if(matches(s1Arr, s2Arr)){
+        if (matches(s1Arr, s2Arr)) {
+            return true;
+        }
+
+        for (int i = n; i < m; i++) {
+            char chAdd = s2.charAt(i);
+            char chRemove = s2.charAt(i - n);
+            s2Arr[chAdd - 'a']++;
+            s2Arr[chRemove - 'a']--;
+
+            if (matches(s1Arr, s2Arr)) {
                 return true;
             }
-
-            s2Arr[s2.charAt(start + n) - 'a']++; // acquire
-            s2Arr[s2.charAt(start) - 'a']--; // release
         }
-        return matches(s1Arr, s2Arr);
+        return false;
     }
 
     private boolean matches(int[] a, int[] b) {
