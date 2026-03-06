@@ -46,16 +46,16 @@ class Solution {
      * 2. A Duplicate is considering the same element again at the same level.
      * 3. To avoid this, we have to skip duplicates, so at every level, except the first element,
      * if there is any other occurence of that element on the same level, we skip it.
-     * 4. Logic in code: if `j>i`, that is, this not the first element in this recursion call
+     * 4. Logic in code: if `j>i`, that is, this is not the first element in this recursion call
      * and it is a duplicate, that is, `nums[j] == nums[j-1]` -> continue;
      * 5. In case of subsets, the answer is generated in every dfs call.
      * i.e., every invocation is a valid subset.
-     * Hence, we add `ds` to `ans` everytime when we enter the `dfs()`.
+     * Hence, we add `ds` to `ans` to every time when we enter the `dfs()`.
      * 6. In the recursion tree, at level 0 - the starting, we have 0-length subsets
      * at level = 1, we have 1-length subsets
      * at level = 2, we have 2-length subsets and so on.
      * 7. So, the reason for skipping at same level is that at same level, the state of the data structure is same, 
-     * hence, the states/decision that branch out of this are also going to look alike. Hence, to avoid, we skip.
+     * hence, the states/decision that branch out of this are also going to look alike. Therefore, to avoid that, we skip.
      * 8. We do not need a base case, because, we are looping in the array, so array index will stop if index is out of bounds.
      */
     public List<List<Integer>> subsetsWithDup(int[] nums) {
@@ -66,17 +66,17 @@ class Solution {
         return ans;
     }
 
-    private void dfs(int i, int[] nums, List<Integer> ds, List<List<Integer>> ans){
+    private void dfs(int start, int[] nums, List<Integer> ds, List<List<Integer>> ans){
         ans.add(new ArrayList<>(ds));
 
-        for(int j = i; j < nums.length; j++){
+        for(int i = start; i < nums.length; i++){
             // skip duplicates if not the first time in the recursion call
-            if(j > i && nums[j] == nums[j - 1]){
+            if(i > start && nums[i] == nums[i - 1]){
                 continue;
             }
 
-            ds.add(nums[j]);
-            dfs(j + 1, nums, ds, ans);
+            ds.add(nums[i]);
+            dfs(i + 1, nums, ds, ans);
             ds.remove(ds.size() - 1);
         }
     }

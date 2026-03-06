@@ -5,9 +5,9 @@ class Solution {
     // S: O(2^n * n); 2^n - subsets and each subset in worst case is of length = n + O(n) - stack space
     /*
      * For every index, I have two choices, either pick or not pick.
-     * If I pick, add it to my data structure and go to next index. 
+     * For "pick", add it to my data structure and go to next index. 
      * Remember to remove it from data structure while backtracking to generate other answers.
-     * If I don't pick, I move to next index, data structure doesn't change.
+     * For "don't pick", I move to next index, data structure doesn't change.
      * Base case: `i == nums.length`, at this moment, all options are explored.
      */
     public List<List<Integer>> subsets(int[] nums) {
@@ -41,10 +41,10 @@ class Solution {
     // S: O(2^n * n); 2^n - subsets and each subset in worst case is of length = n
     // BIT - MANIPULATION SOLUTION
     /*
-     * The subsets are modeled to the binary numbers possible for a given `n`, so 2^n.
-     * Hence, to generate subsets, we use the idea that if a bit is on, select that nums[idx] from the array. 
+     * The subsets are modeled to the binary numbers possible for a given `n`, so 2^n such subsets.
+     * Hence, to generate subsets, we use the idea that if a bit is on, select that `nums[idx]` from the array. 
      * If bit is off, don't select the number.
-     * To check if idx th bit is on in the array, calculate the bit corresponding to idx. 
+     * To check if `idx` bit is on in the array, calculate the bit corresponding to `idx`. 
      * `bit = (1 << idx)` and then, check `if (i & bit) > 0`.
      * A `2^n` can be written as `(1 << n)`.
      */

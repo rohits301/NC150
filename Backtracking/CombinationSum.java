@@ -1,12 +1,8 @@
 class Solution {
     // refer STRIVER
     // BRUTE/BETTER/OPTIMAL
-    // T: O((2^target) * k); 
-    // 2^target as height of tree is target
-    // assume avg. length of list generated is k
-    // and time to add this `list` to answer is proportional to length of list 
-    // hence, we multiple both
-    // S: O(k*x); x = no. of combinations
+    // T: O(N^(target/M)), where N is the number of candidates and M is the value of the smallest candidate; EXPONENTIAL
+    // S: O(k*x + target); x = no. of combinations, k = avg. size of data structure list; SIZE OF RESULT LIST + RECURSION STACK SPACE
     /*
      * 1. We can pick a number multiple times, and we want to reach the target.
      * 2. Intuition - try all possible ways, think recursion.
@@ -14,7 +10,7 @@ class Solution {
      * 4. At every index, we have two choices, either pick it or not pick it. pick => consider the `candidates[i]`.
      * 5. Pick - reduce the target by `candidates[i]`, but stay at the index as this can be considered again.
      * 6. Not pick - target remains same, move to next index, `i+1`.
-     * 7. We need a data structure to store the generated combination, so we consider an array list. In every pick, add and while backtracking
+     * 7. We need a data structure to store the generated combination, so we consider an arraylist. In every pick, add and while backtracking
      * remove the last added value to restore the state of the recursion.
      * 8. Base case - the recursion stops when we reach end of the array. If `target == 0` here, then add the data structure to ans.
      * 9. `return;` is executed after the inner `if` for target, because whenver we hit the base case, we want the recursion to stop

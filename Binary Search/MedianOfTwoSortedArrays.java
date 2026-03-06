@@ -61,8 +61,8 @@ class Solution {
      * 4. `m1` will hold the element at the current median position, and `m2` will
      * hold the element just before it.
      * 5. The main loop runs up to (totalLen / 2) times.
-     * 6. In each iteration, we advance the pointer corresponding to the smaller element between the two arrays, just like in a standard merge algorithm. Before we update
-     * `m1` with the new smaller element, we save its old value to `m2`.
+     * 6. In each iteration, we advance the pointer corresponding to the smaller element between the two arrays, just like in a standard merge algorithm. 
+     * Before we update `m1` with the new smaller element, we save its old value to `m2`.
      * 7. After the loop finishes, `m1` will hold the element at the conceptual
      * index (totalLen / 2), and `m2` will hold the element at index
      * (totalLen / 2) - 1.
