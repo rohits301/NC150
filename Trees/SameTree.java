@@ -15,7 +15,13 @@
  */
 class Solution {
     // refer STRIVER video
-    // T: O(n), S: O(n)
+    // T: O(n)
+    // S: O(h)
+    /*
+     * 1. Two trees are same if they have same shape and same values
+     * 2. Same shape implies, same `left` and `right` subtree. If we go `left` on `p`, then we go `left` on `q` as well.
+     * 3. if any of the nodes is null, then to be valid both should be null, else it is invalid.
+     */
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if(p == null || q == null){
             return (p == null && q == null);

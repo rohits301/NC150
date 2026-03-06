@@ -2,7 +2,11 @@ class Solution {
     // BRUTE FORCE
     // T: O(nlogn); for sorting
     // S: O(n); for converting to arrays
-    // for two anagrams, their sorted arrays/strings must be equal
+    /*
+    * 1. For two strings to be anagrams, their sorted arrays/strings must be equal.
+    * 2. The frequency of each character must be the same in both strings.
+    * 3. The lengths of both strings must be equal.
+    */ 
     public boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) {
             return false;
@@ -22,6 +26,11 @@ class Solution {
     // BETTER
     // T: O(2*n); for frequency maps, 2 iterations
     // S: O(n); for map
+    /*
+     * 1. Create a frequency map for characters in both strings.
+     * 2. Increase the frequency of characters in "s" and decrease the frequency of characters in "t".
+     * 3. If both strings are anagrams, the frequency of all characters should be zero.
+     */
     public boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) {
             return false;
@@ -52,6 +61,9 @@ class Solution {
     // T: O(2*n); 2 iterations of the frequency array
     // S: O(1)
     // FOLLOW-UP: UNICODE CHARACTERS -> int[] freq = new int[128]
+    /*
+     * 1. Same approach as above, but use array of 26 (128 if unicode characters as well) instead of map.
+     */
     public boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) {
             return false;

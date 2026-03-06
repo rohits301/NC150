@@ -16,6 +16,11 @@
 class Solution {
     // Brute Force (Naive)
     // T: O(height), S: O(n) - space of storing n elements in list
+    /*
+     * 1. Inorder of BST is sorted. 
+     * 2. Hence, the kth element in sorted order is our answer.
+     * 3. Store the inorder in list and return the (k-1)th element.
+     */
     public int kthSmallest(TreeNode root, int k) {
         List<Integer> list = new ArrayList<>();
         helper(root, list);
@@ -36,7 +41,8 @@ class Solution {
 class Solution {
     // BETTER 
     // count and ans are taken as static variables
-    // as Java does not support pass by reference
+    // as Java only support pass by value
+    // making static variables, to make the state available to the class.
     // T: O(height), S: O(height) - auxillary space
     int count = 0;
     int ans = 0;
@@ -59,41 +65,128 @@ class Solution {
         helper(root.right, k);
     }
 }
+
+class Solution {
+    /*
+     * Using a small holder class to track state in recursion:
+     *
+     * private static class Counter {
+     *     int count = 0;   // how many nodes we’ve visited so far
+     *     int value;       // holds the kth smallest value once found
+     * }
+     *
+     * Why `private static`?
+     * 1. private: 
+     *    - Encapsulates Counter inside Solution. No other class can see it.
+     * 2. static:  
+     *    - No implicit reference to the enclosing Solution instance.
+     *    - Counter is just a simple data holder, so we avoid extra memory overhead.
+     *
+     * This gives a clean recursive in-order traversal without hidden static
+     * fields or opaque 2-element arrays.
+     */
+    public int kthSmallest(TreeNode root, int k) {
+        Counter ctr = new Counter();
+        dfs(root, k, ctr);
+        return ctr.value;
+    }
+
+    private void dfs(TreeNode node, int k, Counter ctr) {
+        if (node == null) return;
+        dfs(node.left, k, ctr);
+        if (++ctr.count == k) {
+            ctr.value = node.val;
+            return;
+        }
+        dfs(node.right, k, ctr);
+    }
+
+    // static because it doesn't need a reference to Solution.this
+    // private because it's an implementation detail
+    private static class Counter {
+        int count = 0;
+        int value;
+    }
+}
+
 class Solution {
     // OPTIMAL
-    // refer STRIVER
-    // Morris Traversal - inorder, only change, instead of adding to list
-    // we increase count and store the value in ans
-    // T: O(n) - Amortized, S: O(1)
+    // refer STRIVER and ChatGPT
+    /**
+     * Uses Morris Inorder Traversal (threaded binary tree) to find the k-th smallest
+     * element in a BST with O(1) extra space (beyond variables).
+     *
+     * Steps:
+     * 1. Initialize curr = root, count = 0, res = arbitrary.
+     * 2. While curr != null and we haven’t visited k nodes:
+     *    a) If curr.left is null:
+     *         - “Visit” curr: increment count, set res = curr.val.
+     *         - Move to right: curr = curr.right.
+     *    b) Else:
+     *         - Find inorder predecessor (prev) in left subtree:
+     *             prev = curr.left;
+     *             while (prev.right != null && prev.right != curr)
+     *                 prev = prev.right;
+     *
+     *         - If prev.right is null:
+     *             • Create a temporary thread: prev.right = curr
+     *             • Move curr to left: curr = curr.left
+     *
+     *         - Else (thread exists):
+     *             • Remove the thread: prev.right = null
+     *             • “Visit” curr: increment count, res = curr.val
+     *             • Move to right: curr = curr.right
+     *
+     * 3. Once count == k (or traversal ends), res holds the k-th smallest value.
+     *
+     * Time Complexity: O(n) amortized (each edge is traversed at most twice).
+     * Space Complexity: O(1) extra nodes (threads reuse null pointers).
+     */
     public int kthSmallest(TreeNode root, int k) {
-        int count = 0, ans = 0;
-        
+        if (root == null) {
+            return 0;  
+        }
+
         TreeNode curr = root;
-        while(curr != null){
-            if(count == k){
+        int count = 0, res = 0;
+
+        // Traverse until we've visited k nodes in inorder
+        while (curr != null) {
+            if(count == k) {
                 break;
             }
-
-            if(curr.left == null){
-                ans = curr.val;
+            
+            if (curr.left == null) {
+                // No left subtree: visit this node
                 count++;
+                res = curr.val;
+                // Move to next right node
                 curr = curr.right;
             } else {
+                // Find the inorder predecessor in the left subtree
                 TreeNode prev = curr.left;
-                while(prev.right != null && prev.right != curr){
+                while (prev.right != null && prev.right != curr) {
                     prev = prev.right;
                 }
-                if(prev.right == null){
+
+                if (prev.right == null) {
+                    // First time seeing this predecessor: create a thread back
                     prev.right = curr;
+                    // Move down into left subtree
                     curr = curr.left;
                 } else {
+                    // Thread already exists: remove it, then visit curr
                     prev.right = null;
-                    ans = curr.val;
                     count++;
+                    res = curr.val;
+                    // Move to right subtree
                     curr = curr.right;
                 }
             }
         }
-        return ans;
+        return res;
     }
 }
+
+// FOLLOW-UP
+// AVL tree

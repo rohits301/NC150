@@ -4,20 +4,18 @@ class Solution {
     // RECURSION
     // T: O(2^n); going through all possible subsequences
     // S: O(n); stack space
+    /*
+     * Approach:
+     * 1. We use a recursive function `dfs` that takes the current index `idx` and the previous index `prevIdx` of the last included element in the subsequence.
+     * 2. At each step, we have two choices: either include the current element in the subsequence (if it is greater than the last included element) or skip it.
+     * 3. Take or Not Take:
+     * - Not Take: We simply move to the next index without changing `prevIdx`.
+     * - Take: We include the current element in the subsequence (if valid) and move to the next index, updating `prevIdx` to the current index.
+     * 4. We return the maximum length obtained from both choices.
+     * 5. The base case is when we reach the end of the array, at which point we return 0.
+     * 6. The main function initializes the recursion with the first index and a previous index of -1 (indicating no previous element).
+     */
     public int lengthOfLIS(int[] nums) {
-        // APPROACH - 
-        // we need two variables to keep track of LIS
-        // index & prevIndex
-        // index -> becoz. array problem, this is how we will try the options for the current index
-        // prevIndex -> we require increasing subsequence, so we need to keep track which was the last [valid] starting point
-        // two calls -> take and notTake
-        // Take
-        // either the prevIndex == -1, i.e.,the first element case
-        // or the arr[index] > arr[prevIndex], 
-        // same result -> take and update the index 
-        // Not Take
-        // shift the index, prevIndex remains same
-
         return dfs(nums, 0, -1);
     }
     
@@ -41,17 +39,18 @@ class Solution {
     // refer STRIVER
     // BETTER
     // TOP-DOWN (MEMOIZATION)
-    // T: O(n*n);
-    // S: O(n*n) + O(n); dp size + stack space
+    // T: O(n^2);
+    // S: O(n^2) + O(n); dp size + stack space
+    /*
+     * Approach:
+     * 1. Memoize the recursive function.
+     * 2. Create a 2D dp array where dp[i][j] represents the length of the longest increasing subsequence starting from index i with the previous index j.
+     * 3. Initialize the dp array with -1 to indicate uncomputed states.
+     * 4. Since, we cannot have negative indices in the array, we shift the previous index by 1 (i.e., prevIdx -> prevIdx + 1).
+     * 5. The rest of the logic remains the same as in the recursive approach, but we store and 
+     * reuse results from the dp array to avoid redundant calculations.
+     */
     public int lengthOfLIS(int[] nums) {
-        // APPROACH -
-        // we need two variables to define a state => 2D dp[][]
-        // since we cannot have -ve indices in array
-        // shift the index to right
-        // => prevIdx -> prevIdx + 1
-
-        // dp[i][prevIdx+1] -> LIS till i, prevIdx
-
         int n = nums.length;
         int[][] dp = new int[n + 1][n + 1];
         for (int[] ar : dp) {
@@ -84,17 +83,19 @@ class Solution {
     // refer STRIVER
     // BETTER
     // BOTTOM-UP TABULATION
-    // T: O(n*n);
-    // S: O(n*n); dp size
+    // T: O(n^2);
+    // S: O(n^2); dp size
+    /*
+     * Approach:
+     * 1. Same as memoization, we need two variables to define a state => 2D dp[][]
+     * 2. Since we cannot have negative indices in the array, we shift the previous index by 1 (i.e., prevIdx -> prevIdx + 1).
+     * 3. dp[i][prevIdx+1] represents the length of the longest increasing subsequence starting from index i with the previous index prevIdx.
+     * 4. We fill the dp table in a bottom-up manner, starting from the end of the array and moving to the beginning.
+     * 5. The outer loop iterates over the indices of the array in reverse order
+     *   (from n-1 to 0), and the inner loop iterates over the possible previous indices (from i-1 to -1).
+     * 6. The answer will be found in dp[0][0] which corresponds to starting at index 0 with no previous element.
+     */
     public int lengthOfLIS(int[] nums) {
-        // APPROACH -
-        // we need two variables to define a state => 2D dp[][]
-        // since we cannot have -ve indices in array
-        // shift the index to right
-        // => prevIdx -> prevIdx + 1
-
-        // dp[i][prevIdx+1] -> LIS till i, prevIdx
-
         int n = nums.length;
         int[][] dp = new int[n + 1][n + 1];
 
@@ -122,8 +123,16 @@ class Solution {
     // refer STRIVER
     // BETTER
     // BOTTOM-UP TABULATION - SPACE OPTIMISED
-    // T: O(n*n);
+    // T: O(n^2);
     // S: O(n); dp size
+    /*
+     * Approach:
+     * 1. We can optimize the space used in the bottom-up tabulation approach.
+     * 2. Instead of maintaining a full 2D dp array, we can use two 1D arrays: `curr` and `next`.
+     * 3. `next` represents the results for the next index (i+1), and `curr` represents the results for the current index (i).
+     * 4. After processing each index, we update `next` to be `curr` for the next iteration.
+     * 5. This reduces the space complexity from O(n^2) to O(n).
+    */
     public int lengthOfLIS(int[] nums) {
         // APPROACH -
         // we need two variables to define a state => 2D dp[][]
@@ -165,6 +174,19 @@ class Solution {
     // T: O(n log n) - due to binary search in lowerBound
     // S: O(n) - for the temp list storing LIS sequence
     // the LIS sequence stored is just a sorted sequence, it is not the correct LIS sequence
+    /*
+     * Approach:
+     * 1. We maintain a list `temp` that will store the smallest possible end elements of increasing subsequences of different lengths.
+     * 2. We iterate through each number in the input array `nums`.
+     * 3. If the current number is greater than the last element in `temp`, it means we can extend the longest increasing subsequence found so far, so we append it to `temp`.
+     * 4. If the current number is not greater, we find the position in `temp` where this number can replace an existing element to maintain the smallest possible end element for subsequences of that length. This is done using a binary search (lower bound).
+     * 5. The length of the `temp` list at the end of the iteration gives the length of the longest increasing subsequence.
+     * 6. Note that the actual elements in `temp` do not represent the longest increasing subsequence from the original array, but the length of `temp` is correct.
+     * 7. The `lowerBound` function is a helper function that performs a binary search to find the first index in `temp` where the element is greater than or equal to the given number.
+     * 
+     * Intuition:
+     * The idea is to keep track of the smallest tail for all increasing subsequences with different lengths. By doing this, we ensure that we have the best chance of extending these subsequences as we encounter new elements in the array.
+     */
     public int lengthOfLIS(int[] nums) {
         // List to store the smallest possible end elements of increasing subsequences
         List<Integer> temp = new ArrayList<>();

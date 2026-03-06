@@ -5,6 +5,8 @@ class Solution {
     // S: O(m+n); stack space
     // backtracking not required, we are always moving forward
     // no backtracking in recursion tree as well.
+    // we don't need visited[][] here, because no same block will be visited twice
+    // since we are moving only down and right.
     public int uniquePaths(int m, int n) {
         return dfs(0, 0, m, n);
     }
@@ -77,11 +79,20 @@ class Solution {
         // for last row and last column separately
         // we make dp[][] of row+1, col+1 size
         int[][] dp = new int[m + 1][n + 1];
-        dp[m - 1][n - 1] = 1; // base case, there is only way to reach (m-1,n-1) from (m-1,n-1), i.e., don't move
-
         for (int i = m - 1; i >= 0; i--) {
+            // Iterate j from n-1 (last col of actual grid) down to 0 (first col)
             for (int j = n - 1; j >= 0; j--) {
-                dp[i][j] += dp[i + 1][j] + dp[i][j + 1];
+                if (i == m - 1 && j == n - 1) {
+                    // Base Case: We are at the destination cell. There is 1 path.
+                    dp[i][j] = 1;
+                } else {
+                    // Number of paths from (i,j) is sum of:
+                    // paths from cell below (i+1, j) -> dp[i+1][j]
+                    // paths from cell to the right (i, j+1) -> dp[i][j+1]
+                    // If i+1 = m, dp[i+1][j] is dp[m][j] which is 0 (correct).
+                    // If j+1 = n, dp[i][j+1] is dp[i][n] which is 0 (correct).
+                    dp[i][j] = dp[i + 1][j] + dp[i][j + 1];
+                }
             }
         }
         return dp[0][0];
@@ -91,33 +102,49 @@ class Solution {
 
 class Solution {
     // refer NEETCODE
-    // OPTIMAL
-    // BOTTOM-UP (TABULATION) SPACE OPTIMIZED
-    // T: O(m*n)
-    // S: O(n); dp size
+    // BETTER - SPACE OPTIMIZED TABULATION
+    // T: O(m*n) - Each cell's logic is computed once.
+    // S: O(n)   - Using two 1D arrays of size n (or n+1).
+    /**
+     * 1. We only need the previous row state (dp[i+1][j]) to calculate dp[i][j].
+     * - `prev`: previously computed row (`dp[i+1]`).
+     * - `curr`: current row `i` (`dp[i]`).
+     * 2. Base Case Handling:
+     * The base case `dp[m-1][n-1] = 1` is handled when `i = m-1` and `j = n-1`
+     * by setting `curr[j] = 1`.
+     * 3. Row Update:
+     * After the inner loop (for `j`) completes and the entire `curr` row (for `dp[i]`)
+     * is computed, `curr` becomes the `prev` row for the next iteration. 
+     * The array previously holding `prev` values can be reused for the new `curr` values. 
+     * This is achieved by swapping the `prev` and `curr` array references.
+     * 4. Final Result:
+     * After all rows are processed, the loop for i=0 computes dp[0][...] into 'curr',
+     * then 'prev' is updated to point to this 'curr'.
+     * So, prev[0] holds dp[0][0].
+     */
     public int uniquePaths(int m, int n) {
-        int[] prev = new int[n];
-        Arrays.fill(prev, 1);
-        // prev[] stores the previous state
-        // in this case, since we ar filling the dp from m-1,n-1
-        // so the previous is row = i+1
-        // current is row = i
-        // acc. to recurrence, we only require, (i,j+1) & (i+1, j)
-        // => curr[j+1] & prev[j]
-
-        // logic for filling "1" in arrays, the last column (n-1)
-        // and last row (m-1) will always have "1" since only one way to reach destination from there
-
-        for (int i = m - 2; i >= 0; i--) {
-            int[] curr = new int[n];
-            Arrays.fill(curr, 1);
-            for (int j = n - 2; j >= 0; j--) {
-                curr[j] = curr[j + 1] + prev[j];
+        // Size n+1 allows curr[n] to act as a 0-boundary for curr[j+1] when j=n-1
+        int[] prev = new int[n + 1];
+        int[] curr = new int[n + 1];
+        
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (i == m - 1 && j == n - 1) {
+                    // Base Case: At the destination cell, there is 1 path.
+                    curr[j] = 1;
+                } else {
+                    curr[j] = prev[j] + curr[j + 1];
+                }
             }
-            prev = curr; // this won't give copying problem
-            // because curr[] is new every-time
+            // After the current row 'i' is computed in 'curr',
+            // 'curr' becomes 'prev' for the next iteration (row 'i-1').
+            // The array that 'prev' was pointing to is now used for 'curr'.
+            int[] temp = prev;
+            prev = curr;
+            curr = temp;
+            // For the next iteration, 'curr' (which now points to the old 'prev' array)
+            // will be entirely overwritten, so its old values don't interfere.
         }
         return prev[0];
     }
-
 }

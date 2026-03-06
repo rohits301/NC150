@@ -11,6 +11,13 @@
 class Solution {
     // BRUTE FORCE
     // T: O(len) = len+len = 2*len = O(len), S: O(1)
+    /*
+     * Approach:
+     * 1. Find the length of the linked list.
+     * 2. If n is equal to the length, return head.next (deleting the head).
+     * 3. Traverse to the (len - n)th node and adjust pointers to skip the nth node from the end.
+     * 4. Return the modified head.
+     */
     public ListNode removeNthFromEnd(ListNode head, int n) {
         int len = 0;
         ListNode temp = head;
@@ -42,6 +49,18 @@ class Solution {
     // OPTIMAL
     // refer STRIVER, both STRIVER and Neetcode have similar approach
     // T: O(length), S: O(1)
+    /*
+     * Intuition:
+     * Maintain a gap of n nodes between the fast and slow pointers. 
+     * When the fast pointer reaches the end, the slow pointer will be at the node just before the one we want to remove.
+     * Approach:
+     * 1. Use two pointers, fast and slow.
+     * 2. Move the fast pointer n steps ahead.
+     * 3. If fast is null after moving, it means we need to remove the head.
+     * 4. Move both pointers until fast reaches the end of the list.
+     * 5. Adjust the slow pointer's next to skip the nth node from the end.
+     * 6. Return the modified head.
+     */
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode fast = head;
         ListNode slow = head;
