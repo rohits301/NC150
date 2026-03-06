@@ -14,8 +14,21 @@
  * }
  */
 class Solution {
-    // T: O(n1 * n2) - sum of nodes in root & subRoot trees
+    // refer STRIVER
+    // T: O(s * t) - where s is the number of nodes in root, t in subRoot
+    // In the worst case, we call isSameTree (which is O(t)) for every node in root (s nodes)
     // S: O(h1 + h2) - sum of heights is the stack size
+    /*
+     * 1. Let's consider, subroot as 't' and root as 's'.
+     * 2. for `t` to be a subtree of `s`, it should have same structure and same values as a subtree in `s`.
+     * 3. Hence, `t` and subtree of `s` should be same tree.
+     * 4. So, we recursively check if any subtree of `s` either left or right is SameTree with `t`.
+     * 5. Edge cases:
+     * a) if both `s` and `t` are null, then null is a subtree of null -> return true.
+     * b) if `t` is null but `s` is non-null. Then, `t` matches with the child of leaf nodes of `s` as they are also null -> return true.
+     * c) if `s` is null but `t` is non-null, then there is no-way we can find `t` in `s` -> return false.
+     * 6. Hence, in a nutshell, if `t` is null, return true, regardless of `s`. If `s` is null, and `t` is non-null, return false.
+     */
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         if(subRoot == null){
             return true;

@@ -14,7 +14,10 @@
  * }
  */
 class Solution {
-    // T: O(n), S: O(n)
+    // T: O(n), S: O(h)
+    /*
+     * Swap the left and right nodes for the current node, here, `root`.
+     */
     public TreeNode invertTree(TreeNode root) {
         if(root == null){
             return root;

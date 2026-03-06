@@ -11,8 +11,23 @@
  class Solution {
     // BRUTE FORCE
     // refer STRIVER's LCA of binary tree video
-    // using the Binary tree approach on BST
-    // T: O(height), S: O(height) - space is recursion auxillary space
+    // using the generic Binary tree approach on BST
+    // T: O(n), S: O(height) - space is recursion auxillary space
+    /*
+     1. Base case:
+     *    - If root is null, return null.
+     *    - If root == p or root == q, return root.
+     *      (We found one of the targets and propagate it up.)
+
+     * 2. Recurse on both subtrees:
+     *    left  = LCA(root.left,  p, q);
+     *    right = LCA(root.right, p, q);
+
+     * 3. Analyze results:
+     *    a) If left  is null, both targets (if any) lie in right subtree → return right.
+     *    b) If right is null, both targets lie in left subtree → return left.
+     *    c) If both left and right are non-null, targets are split between subtrees → root is the LCA.
+     */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         // base case
         if (root == null || root == p || root == q) {
@@ -37,7 +52,7 @@ class Solution {
     // BETTER
     // refer STRIVER
     // Recursive
-    // T: O(height), S: O(height), height = log n in case of BST
+    // T: O(h), S: O(height), height = log n in case of BST
     // sc is of recursion auxillary space
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(root == null){

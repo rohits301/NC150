@@ -1,6 +1,7 @@
 class Solution {
     // BRUTE FORCE
-    // T: O(n), S: O(1)
+    // T: O(n)
+    // S: O(1)
     int idx = 0;
 
     public int findMin(int[] nums) {
@@ -21,7 +22,19 @@ class Solution {
 class Solution {
     // OPTIMAL
     // refer STRIVER's video
-    // T: O(log n), S: O(1)
+    // T: O(log n)
+    // S: O(1)
+    /*
+     * Approach:
+     * 1. Since the array is sorted, think Binary search.
+     * 2. If the entire array is sorted, it means it was not rotated, then the minimum element is `nums[0]`.
+     * 3. Else, the array is rotated.
+     * 4. Since, the array is rotated around the pivot point, we use binary search to find the pivot as it is the minimum value in the array.
+     * Why? Because the pivot point is the point of rotation and the smallest element in the array. This is the foundation of the rotated sorted array. The pivot is the element where there is a sharp drop.
+     * 5. We divide the array into two halves and check which half is sorted.
+     * 6. If the left half is sorted, update the minimum element and search in the right half.
+     * 7. If the right half is sorted, update the minimum element and search in the left half.
+     */
     public int findMin(int[] nums) {
         int lo = 0, hi = nums.length - 1;
         int ans = Integer.MAX_VALUE;

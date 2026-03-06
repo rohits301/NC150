@@ -16,8 +16,16 @@
 class Solution {
     // refer NEETCODE for all 3 approaches and STRIVER for tc and sc
     // Recursive DFS
-    // T: O(n), S: O(n) - auxilary space of recursion - O(height), worst case - skewed tree
+    // T: O(n), S: O(h) - auxilary space of recursion - O(height), worst case - skewed tree, h=n
     // Most preferred
+    /*
+     * 1. Maximum Depth = number of nodes on the longest path from the root node down to the farthest leaf node.
+     * (An empty tree has a depth of 0).
+     * 2. Depth is calculated recursively: standing at a node, its depth is
+     * 1 + max(depth of left subtree, depth of right subtree).
+     * 3. The base case is an empty subtree (null node), which has a depth of 0.
+     * NOTE: for trees, number of nodes = number of edges + 1.
+     */
     public int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;

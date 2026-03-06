@@ -17,7 +17,25 @@ class Solution {
     // refer STRIVER
     // Brute/Better/Optimal
     // T: O(n), S: O(n) - visiting all elements of array so, tc: O(n)
-    // space for map - O(n) + auxillary space - O(n), so sc: O(n)
+    // space for map - O(n) + auxillary space - O(h), so sc: O(n)
+    /*
+     * Approach - 
+     * 1. Observations - 
+     * Preorder -> `Root Left Right`  Inorder -> `Left Root Right`
+     * 2. The first element in preorder[] is always the `root`.
+     * 3. Searching this `root` in inorder[] will tell the split for `left` and `right` subtree.
+     * 4. In inorder[], all elements to the left of rootIndex are left subtree and all to the right are right subtree.
+     * 5. Calculating the elements in preorder[] can be done like -> count the number of elements to the left 
+     * from the root index in inorder[], call it, `numsLeft`.
+     * Then, the left subtree = `preStart + 1` to `preStart + numsLeft`.
+     * 6. Similarly, right subtree = `preStart + numsLeft + 1` to `preEnd`.
+     * 7. For inorder[], left subtree = `inStart to inRoot - 1` and right subtree = `inRoot+1 to inEnd`.
+     * 8. To search in O(1) in inorder[], we use a `map of k,v: inorder[i], i`.
+     * 9. We split both arrays recursively (DFS) using 4 indices -> `preStart, preEnd, inStart, inEnd`. 
+     * 10. Construct `root` and call for left and right subtrees.
+     * 11. Base case: if the start index crosses the end index, stop and return null -> this signifies the leaf node.
+     * NOTE: for `root.left` call -> we take start as `preStart + 1`, because `preStart` is `root`.
+     */
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {

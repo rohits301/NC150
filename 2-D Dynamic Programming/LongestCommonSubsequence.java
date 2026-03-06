@@ -4,6 +4,17 @@ class Solution {
     // T: O(2^n * 2^m) - exponential; comparing all subsequences of both strings
     // n = text1.length(), m = text2.length()
     // S: O(n + m); max. depth of recursion tree
+    /*
+     * 1. Generating all subsequences and comparing them via a linear comparison is not feasible.
+     * 2. So, we try to generate the subsequences and compare them along the way.
+     * 3. Instead of generating different strings, we will express them in terms of indices and consider the strings via indices.
+     * 4. We need two indices, one for each string.
+     * 5. We start from back, can start from starting as well, no particular reason to start from back.
+     * The string under consideration `dfs(text1, i, text2, j)` -> `text1 (0 to i), text2 (0 to j)`
+     * 6. Match -> increase length as matching character and consider the rest of the strings
+     * 7. Not match -> maximum of `(i-1, j) and (i, j-1)` - to ensure both possibilities are considered
+     * 8. Base case: when no string left to compare, i.e., `i<0 || j<0`
+     */
     public int longestCommonSubsequence(String text1, String text2) {
         int n = text1.length();
         int m = text2.length();
@@ -71,17 +82,19 @@ class Solution {
     // T: O(n*m); comparing all subsequences of both strings
     // n = text1.length(), m = text2.length()
     // S: O(n*m); n*m = size of dp array
+    /*
+     * 1. dp[i][j] represents LCS of text1[0...i], text2[0...j]
+     * 2. the base case of recursion was for -ve indices
+     * 3. in the array, since, we don't have -ve indices
+     * 4. it can be simulated by shifting the indices to the right
+     * 5. => we consider string from 1 to n, 1 to m (instead of 0)
+     * 6. => the base case translates to the zero indices of the dp[][]
+     */
     public int longestCommonSubsequence(String text1, String text2) {
         int n = text1.length();
         int m = text2.length();
         int[][] dp = new int[n + 1][m + 1];
-        // the base case of recursion was for -ve indices
-        // in the array, since, we don't have -ve indices
-        // it can be simulated by shifting the indices to the right
-        // => we consider string from 1 to n, 1 to m (instead of 0)
-        // => the base case translates to the zero indices of the dp[][]
 
-        // dp[i][j] = LCS of text1[0...i], text2[0...j]
         for (int i = 0; i <= n; i++) {
             dp[i][0] = 0;
         }

@@ -16,6 +16,11 @@
 class Solution {
     // refer NEETCODE and STRIVER
     // T: O(n), S: O(n/2) = O(n)
+    // 1
+    // 2,3
+    // 4,5,6,7
+    // 3 levels, n=7, Logn + 1 = number of nodes at last level ???
+    // how many children at last level
     public List<List<Integer>> levelOrder(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         List<List<Integer>> ans = new LinkedList<>();
